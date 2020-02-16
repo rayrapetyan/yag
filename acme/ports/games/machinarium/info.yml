@@ -5,7 +5,7 @@ genres:
   - point-and-click
 distributions:
   - gog:
-      id: 1207659017
+      slug: machinarium_collectors_edition
   - humble:
       id: machinarium
   - steam:

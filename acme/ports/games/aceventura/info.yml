@@ -1,8 +1,9 @@
-name: Neverhood, The
+name: "Ace Ventura Pet Detective"
 year: 1996
 genres:
   - adventure
   - point-and-click
 distributions:
   - image:
-      description: 1CD
+      description: 1 CD
+

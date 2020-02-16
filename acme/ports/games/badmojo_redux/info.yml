@@ -1,0 +1,11 @@
+name: "Bad Mojo: The Roach Game (Redux)"
+year: 2004
+genres:
+  - adventure
+distributions:
+  - image:
+      description: 1CD
+  - gog:
+      slug: bad_mojo_redux
+  - steam:
+      id: 255960

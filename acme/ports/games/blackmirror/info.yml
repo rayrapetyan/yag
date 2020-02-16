@@ -1,0 +1,10 @@
+name: "Black Mirror"
+year: 2002
+genres:
+  - adventure
+  - point-and-click
+distributions:
+  - gog:
+      slug: the_black_mirror
+  - steam:
+      id: 292930

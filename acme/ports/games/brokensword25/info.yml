@@ -5,4 +5,4 @@ genres:
   - point-and-click
 distributions:
   - innosetup:
-    description: "default installer from official zip-archive at http://www.brokensword25.com/"
+    description: "default installer from official site http://www.brokensword25.com/"

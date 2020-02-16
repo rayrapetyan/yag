@@ -1,8 +1,0 @@
-- debug:
-    msg: System {{ ansible_os_family }} has gateway {{ ansible_os_family }}
-
-- screen:
-    resolution: 640,480
-
-- screen:
-    brightness: 1
