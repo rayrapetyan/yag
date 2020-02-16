@@ -1,0 +1,76 @@
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: yes  # TODO: do one-time facts gathering as part of a yag install
+
+  environment:
+    WINE_BODEGA: "{{ wine.bodega }}"
+    WINE_APPS_FOLDER: "{{ wine.apps_folder }}"
+
+    APPS_FOLDER: "{{ apps_common.base_folder }}"
+
+  tasks:
+    - tempfile:
+        state: directory
+        suffix: "{{ app_name }}"
+      register: tmp_dir
+
+    - set_fact:
+        app_folder: "{{ apps_common.base_folder }}/{{ app_name }}"
+        tmp_folder: "{{ tmp_dir.path }}"
+
+    - set_fact:
+        app_installed_flag: "{{ app_folder }}/yag.installed"
+
+    - stat:
+        path: "{{ app_installed_flag }}"
+      register: app_installed
+
+    - meta: end_play
+      when: app_installed.stat.exists
+
+    - include_role:
+        name: unpacker
+
+    - source_scan:
+        path: "{{ source_path }}"
+      when: source_path is defined and source_path is not none
+      register: source
+
+    - set_fact:
+        installer: "{{ source.installer }}"
+      when: source.installer is defined
+
+    - set_fact:
+        image: "{{ source.image }}"
+      when: source.image is defined
+
+    - set_fact:
+        data_folder: "{{ apps_common.data_folder }}/{{ app_name }}"
+
+    - file:
+        path: "{{ app_folder }}"
+        state: directory
+        mode: '0755'
+
+    - file:
+        path: "{{ data_folder }}"
+        recurse: yes
+        mode: '0755'
+        state: directory
+
+    - screen:
+      register: screen
+
+    - name: install app
+      include_role:
+        name: "{{ app_name }}"
+      vars:
+        action: install
+
+    - file:
+        path: tmp_dir.path
+        state: absent
+
+    - file:
+        path: "{{ app_installed_flag }}"
+        state: touch

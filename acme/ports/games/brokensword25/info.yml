@@ -1,0 +1,8 @@
+name: "Broken Sword 2.5: The Return of the Templars"
+year: 2008
+genres:
+  - adventure
+  - point-and-click
+distributions:
+  - innosetup:
+    description: "default installer from official zip-archive at http://www.brokensword25.com/"

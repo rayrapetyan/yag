@@ -1,0 +1,7 @@
+- package:
+    name:
+     - i386-wine
+     - winetricks
+    state: latest
+  become: yes
+  become_method: sudo

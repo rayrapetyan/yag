@@ -1,0 +1,19 @@
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ app_folder }}"
+    gog: true
+    creates: "{{ app_folder }}/{{ executable }}"
+
+- copy:
+    src: "groovie2.ini"
+    dest: "{{ app_folder }}"
+
+- file:
+    path: "{{ app_folder }}/SAVE"
+    state: absent
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ app_folder }}/SAVE"
+    force: yes
+    state: link

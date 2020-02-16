@@ -1,0 +1,5 @@
+- package:
+    name: timidity
+    state: latest
+  become: yes
+  become_method: sudo

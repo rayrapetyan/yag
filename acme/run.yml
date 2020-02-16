@@ -1,0 +1,40 @@
+- hosts: 127.0.0.1
+  connection: local
+  gather_facts: yes  # TODO: do one-time facts gathering as part of a yag run
+
+  vars:
+    app_folder: "{{ apps_common.base_folder }}/{{ app_name }}"
+    data_folder: "{{ apps_common.data_folder }}/{{ app_name }}"
+
+  environment:
+    DOSBOX_CONF_PATH: "{{ dosbox.conf_path }}"
+    SCUMMVM_CONF_PATH: "{{ scummvm.conf_path }}"
+
+    APPS_FOLDER: "{{ apps_common.base_folder }}"
+    APP_FOLDER: "{{ app_folder }}"
+    DATA_FOLDER: "{{ data_folder }}"
+
+    WINE_BODEGA: "{{ wine.bodega }}"
+    WINE_APPS_FOLDER: "{{ wine.apps_folder }}"
+
+  tasks:
+    - stat:
+        path: "{{ app_folder }}/yag.installed"
+      register: app_installed
+
+    - assert:
+        that:
+          - app_installed.stat.exists
+        fail_msg: "{{ app_name }} is not installed"
+
+    - screen:
+      register: pre_screen
+
+    - block:
+        - include_role:
+            name: "{{ app_name }}"
+          vars:
+            action: run
+      always:
+        - screen:
+            resolution: "{{ pre_screen.resolution }}"

@@ -1,0 +1,4 @@
+wine_recipe:
+  os_ver: win95
+  deps:
+    - quicktime2

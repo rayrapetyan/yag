@@ -1,0 +1,4 @@
+- scummvm:
+    game: bs25
+    path: "{{ app_folder }}"
+    savepath: "{{ data_folder }}"

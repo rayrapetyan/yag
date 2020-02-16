@@ -1,0 +1,8 @@
+- get_url:
+    url: "http://baphometsfluch25.de/downloads/sonstiges/BS25_patch000_multilingual.zip"
+    dest: "{{ tmp_folder }}"
+    checksum: sha256:84934b495a5847244b9be221d96cff12212c72704afdfefff843892b3ae608d4
+
+- unarchive:
+    src: "{{ tmp_folder }}/BS25_patch000_multilingual.zip"
+    dest: "{{ app_folder }}"

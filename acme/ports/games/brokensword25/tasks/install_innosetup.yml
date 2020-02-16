@@ -1,0 +1,8 @@
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ tmp_folder }}"
+    creates: "{{ tmp_folder }}/app/bsengine.exe"
+
+- copy:
+    src: "{{ tmp_folder }}/app/"
+    dest: "{{ app_folder }}"

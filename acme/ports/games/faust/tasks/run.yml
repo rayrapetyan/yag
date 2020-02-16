@@ -1,0 +1,5 @@
+- screen:
+    resolution: 640,480
+
+- wine:
+    exec: "{{ app_folder }}/Faust.exe"

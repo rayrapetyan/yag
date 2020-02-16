@@ -1,0 +1,42 @@
+- image_extract:
+    image: "{{ image.path }}"
+    dest: "{{ app_folder }}"
+    force: no
+
+- template:
+    src: BADMOJO.j2
+    dest: "{{ app_folder }}/BADMOJO.INI"
+
+- wine:
+    recipe: "{{ wine_recipe }}"
+    exec: "{{ app_folder }}/QTW/QuickTimeFullInstaller.exe"
+
+#- block:
+    #- wine:
+    #    state: present
+    #  register: wine_env
+
+    #- command: winetricks --unattended quicktime76
+    #  environment:
+    #    WINEPREFIX: "{{ wine_env.prefix }}"
+
+    #- get_url:
+    #    url: "https://secure-appldnld.apple.com/QuickTime/031-43075-20160107-C0844134-B3CD-11E5-B1C0-43CA8D551951/QuickTimeInstaller.exe"
+    #    dest: "{{ tmp_folder }}"
+    #    checksum: md5:1a762049bef7fc3a53014833757de2d2
+    #- wine:
+    #    exec:
+    #      - "{{ tmp_folder }}/QuickTimeInstaller.exe /extract"
+    #      - "msiexec /i {{ tmp_folder }}/QuickTime.msi /qn /norestart ISSETUPDRIVEN=0 ALLUSERS=1 DESKTOP_SHORTCUTS=0 QTTaskRunFlags=0 QTINFO.BISQTPRO=1 SCHEDULE_ASUW=0 REBOOT_REQUIRED=No"
+          #- "msiexec /i {{ tmp_folder }}/AppleApplicationSupport.msi /qn /norestart DESKTOP_SHORTCUTS=0 ALLUSERS=1"
+
+- block:
+    - file:
+        path: "{{ app_folder }}/SAVE"
+        state: absent
+
+    - file:
+        src: "{{ data_folder }}"
+        dest: "{{ app_folder }}/SAVE"
+        force: yes
+        state: link

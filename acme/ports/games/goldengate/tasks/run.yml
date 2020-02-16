@@ -1,0 +1,21 @@
+#- screen:
+#    resolution: 640,480
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ app_folder }}/"
+  with_fileglob:
+    - "{{ data_folder }}/*.ggx"
+
+- wine:
+    recipe: "{{ wine_recipe }}"
+    cdrom:
+      letter: "d"
+      target: "{{ app_folder }}"
+    exec: "{{ app_folder }}/GOLDENGA.EXE"
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ data_folder }}/"
+  with_fileglob:
+    - "{{ app_folder }}/*.ggx"

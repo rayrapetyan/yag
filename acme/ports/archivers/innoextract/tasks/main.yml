@@ -1,0 +1,26 @@
+- package:
+    name: innoextract
+    state: latest
+  become: yes
+  become_method: sudo
+  when: ansible_os_family | lower != "debian"
+
+- stat:
+    path: "/usr/bin/innoextract"
+  register: app_installed
+
+- block:
+  - get_url:
+      url: "https://constexpr.org/innoextract/files/innoextract-1.8-linux.tar.xz"
+      dest: "{{ tmp_folder }}"
+      checksum: md5:589da651aba31597d7c21a6e86086ce8
+  - unarchive:
+      src: "{{ tmp_folder }}/innoextract-1.8-linux.tar.xz"
+      dest: "{{ tmp_folder }}"
+  - copy:
+      src: "{{ tmp_folder }}/innoextract-1.8-linux/bin/amd64/innoextract"
+      dest: "/usr/bin/"
+      mode: a+x
+    become: yes
+    become_method: sudo
+  when: ansible_os_family | lower == "debian" and not app_installed.stat.exists

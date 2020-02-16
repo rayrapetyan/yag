@@ -1,0 +1,10 @@
+- image_extract:
+    image: "{{ image.path }}"
+    dest: "{{ app_folder }}"
+    files:
+      - "DATA"
+    force: no
+
+- copy:
+    src: "{{ app_folder }}/DATA/HD.BLB"
+    dest: "{{ app_folder }}"

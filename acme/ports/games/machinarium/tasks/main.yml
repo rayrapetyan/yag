@@ -1,0 +1,19 @@
+- include_vars: "{{ os_vars_item }}"
+  with_first_found:
+    - "{{ ansible_os_family | lower }}.yml"
+    - "{{ ansible_system | lower }}.yml"
+    - "default.yml"
+  loop_control:
+    loop_var: os_vars_item
+
+- assert:
+    that:
+      - installer.platform == installer_platform
+    fail_msg: "invalid installer platform (expected: {{ installer_platform }}, actual: {{ installer.platform }})"
+  when: action == "install"
+
+- include_tasks: "{{ action }}_{{ installer.subtype }}_{{ installer.platform }}.yml"
+  when: action == "install"
+
+- include_tasks: "{{ action }}_{{ installer_platform }}.yml"
+  when: action == "run"

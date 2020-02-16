@@ -1,0 +1,80 @@
+- assert:
+    that:
+      - image.path | length == 4
+    fail_msg: "4 CD images expected, {{ image.path | length }} provided"
+
+- include_role:
+    name: wine
+
+- image_extract:
+    image: "{{ image.path[0] }}"
+    dest: "{{ tmp_folder }}"
+    force: no
+
+- copy:
+    src: "{{ tmp_folder }}/DATA/"
+    dest: "{{ app_folder }}/data/"
+
+- copy:
+    src: "{{ app_folder }}/data/eng/sy.at3"
+    dest: "{{ app_folder }}/data"
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ app_folder }}"
+  with_items:
+    - "{{ tmp_folder }}/ames.ini"
+    - "{{ tmp_folder }}/aobj.ini"
+    - "{{ tmp_folder }}/arxrin3.fon"
+    - "{{ tmp_folder }}/Faust.exe"
+    - "{{ tmp_folder }}/fl.ini"
+    - "{{ tmp_folder }}/mmxImage.dll"
+
+- image_extract:
+    image: "{{ image.path[1] }}"
+    dest: "{{ app_folder }}"
+    force: no
+
+- image_extract:
+    image: "{{ image.path[2] }}"
+    dest: "{{ app_folder }}"
+    force: no
+
+- image_extract:
+    image: "{{ image.path[3] }}"
+    dest: "{{ app_folder }}"
+    force: no
+
+- copy:
+    src: cd.ini
+    dest: "{{ app_folder }}/data"
+
+- replace:
+    path: "{{ app_folder }}/fl.ini"
+    regexp: "{{ item.rx }}"
+    replace: "{{ item.repl }}"
+  with_items:
+    - { rx: 'CDROM', repl: '.\\' }
+    - { rx: 'CHECKCD:\s+1', repl: 'CHECKCD: 0' }
+    - { rx: 'CHECKLOADSAVE:\s+1', repl: 'CHECKLOADSAVE: 0' }
+
+- name: handle saves
+  block:
+    - stat:
+        path: "{{ data_folder }}/user.aba"
+      register: saves_present
+
+    - copy:
+        src: "{{ app_folder }}/data/save/"
+        dest: "{{ data_folder }}"
+      when: not saves_present.stat.exists
+
+    - file:
+        path: "{{ app_folder }}/data/save"
+        state: absent
+
+    - file:
+        src: "{{ data_folder }}"
+        dest: "{{ app_folder }}/data/save"
+        force: yes
+        state: link

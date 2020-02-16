@@ -1,0 +1,17 @@
+- copy:
+    src: "{{ item }}"
+    dest: "{{ app_folder }}/"
+  with_fileglob:
+    - "{{ data_folder }}/save.*"
+
+- wine:
+    exec: "{{ app_folder }}/{{ executable }}"
+
+- screen:
+    brightness: 1
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ data_folder }}/"
+  with_fileglob:
+    - "{{ app_folder }}/save.*"

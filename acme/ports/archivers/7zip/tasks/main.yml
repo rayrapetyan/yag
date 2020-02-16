@@ -1,0 +1,13 @@
+- include_vars: "{{ os_vars_item }}"
+  with_first_found:
+    - "{{ ansible_os_family | lower }}.yml"
+    - "{{ ansible_system | lower }}.yml"
+    - "default.yml"
+  loop_control:
+    loop_var: os_vars_item
+
+- package:
+    name: "{{ package_name }}"
+    state: latest
+  become: yes
+  become_method: sudo

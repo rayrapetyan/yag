@@ -1,0 +1,8 @@
+- include_role:
+    name: "{{ unpack_item }}"
+  loop:
+    - 7zip
+    - innoextract
+    - unzip
+  loop_control:
+    loop_var: unpack_item

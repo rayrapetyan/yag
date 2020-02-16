@@ -1,0 +1,12 @@
+name: Machinarium
+year: 2009
+genres:
+  - adventure
+  - point-and-click
+distributions:
+  - gog:
+      id: 1207659017
+  - humble:
+      id: machinarium
+  - steam:
+      id: 40700

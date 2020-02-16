@@ -1,0 +1,10 @@
+- image_extract:
+    image: "{{ image.path }}"
+    dest: "{{ tmp_folder }}"
+    files:
+      - "Ace"
+    force: no
+
+- copy:
+    src: "{{ tmp_folder }}/Ace/"
+    dest: "{{ app_folder }}"

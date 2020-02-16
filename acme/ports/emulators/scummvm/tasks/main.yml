@@ -1,0 +1,9 @@
+- package:
+    name: scummvm
+    state: latest
+  become: yes
+  become_method: sudo
+
+- copy:
+    src: "scummvm.ini"
+    dest: "{{ apps_common.conf_folder }}/"

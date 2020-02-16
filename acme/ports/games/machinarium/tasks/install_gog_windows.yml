@@ -1,0 +1,36 @@
+- include_role:
+    name: wine
+
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ tmp_folder }}"
+    gog: true
+    creates: "{{ tmp_folder }}/app/{{ executable }}"
+
+- copy:
+    src: "{{ tmp_folder }}/app/"
+    dest: "{{ app_folder }}"
+
+- find:
+    paths: "{{ app_folder }}"
+    patterns:
+      - "goggame-*"
+      - "webcache.zip"
+      - "__support"
+    file_type: any
+  register: delme_files
+
+- file:
+    path: "{{ item.path }}"
+    state: absent
+  with_items: "{{ delme_files.files }}"
+
+- wine:
+    state: present
+  register: wine_env
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ wine_env.prefix }}/drive_c/users/{{ ansible_user_id }}/Application Data/Amanita-Design.Machinarium"
+    force: yes
+    state: link

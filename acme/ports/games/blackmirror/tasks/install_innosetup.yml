@@ -1,0 +1,12 @@
+- include_role:
+    name: wine
+
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ tmp_folder }}"
+    gog: true
+    creates: "{{ tmp_folder }}/app/{{ executable }}"
+
+- copy:
+    src: "{{ tmp_folder }}/app/"
+    dest: "{{ app_folder }}"

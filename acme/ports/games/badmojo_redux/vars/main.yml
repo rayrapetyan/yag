@@ -1,0 +1,3 @@
+wine_recipe:
+  deps:
+    - quicktime6

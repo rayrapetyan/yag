@@ -1,0 +1,3 @@
+- wine:
+    exec: "{{ app_folder }}/Ace.exe"
+    virtual_desktop: "800x600"

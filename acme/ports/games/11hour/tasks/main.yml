@@ -1,0 +1,13 @@
+- assert:
+    that:
+      - ansible_os_family | lower != "freebsd"
+    fail_msg: "FreeBSD is not supported, xmidi initialization error on launch: https://forums.freebsd.org/threads/software-synth-midi-how-to-get-it-working.13998/"
+
+- include_vars:
+    default.yml
+
+- include_tasks: "{{ action }}_{{ installer.subtype }}.yml"
+  when: action == "install"
+
+- include_tasks: "run.yml"
+  when: action == "run"
