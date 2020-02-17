@@ -1,6 +1,3 @@
-- include_role:
-    name: wine
-
 - image_extract:
     image: "{{ image.path }}"
     dest: "{{ app_folder }}"

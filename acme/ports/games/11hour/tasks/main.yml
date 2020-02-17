@@ -6,7 +6,10 @@
 - include_vars:
     default.yml
 
-- include_tasks: "{{ action }}_{{ installer.subtype }}.yml"
+- block:
+    - include_role:
+        name: wine
+    - include_tasks: "{{ action }}_{{ installer.subtype }}.yml"
   when: action == "install"
 
 - include_tasks: "run.yml"
