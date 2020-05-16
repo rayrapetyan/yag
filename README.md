@@ -25,7 +25,7 @@ pip3 install --upgrade pip
 ```
 ### FreeBSD 12
 
-TODO
+sudo pkg install -y python py37-pip git
 
 ### Clone repo
 ```
@@ -35,26 +35,7 @@ git clone https://github.com/rayrapetyan/yag.git
 
 ### Configuration
 You can find configuration file in `acme/group_vars/all`.
-Feel free to change any parameters there (e.g. root_folder). Warning: you'll not be able to change them again after
-build!
-```
-root_folder: "{{ lookup('env','HOME') }}/yag"
-
-apps_common:
-  base_folder: "{{ root_folder }}/apps"
-  data_folder: "{{ root_folder }}/data"
-  conf_folder: "{{ root_folder }}/conf"
-
-wine:
-  bodega: "{{ root_folder }}/envs/wine"
-  apps_folder: "C:\\apps"
-
-scummvm:
-  conf_path: "{{ apps_common.conf_folder }}/scummvm.ini"
-
-dosbox:
-  conf_path: "{{ apps_common.conf_folder }}/dosbox.conf"
-```
+Feel free to change any parameters there (e.g. root_folder).
 
 ### Build
 ```

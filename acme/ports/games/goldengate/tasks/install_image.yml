@@ -6,7 +6,3 @@
 - copy:
     src: GOLDENGA.EXE
     dest: "{{ app_folder }}"
-
-- wine:
-    recipe: "{{ wine_recipe }}"
-    exec: "{{ app_folder }}/QTIME32/QT32INST.EXE"

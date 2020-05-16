@@ -6,7 +6,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'ansible @ git+https://github.com/rayrapetyan/ansible.git@copy_local_perf_opt',
+        'ansible @ https://github.com/rayrapetyan/ansible/archive/copy_local_perf_opt.zip',
         'click',
     ],
     entry_points={
