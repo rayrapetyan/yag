@@ -26,7 +26,7 @@ def search(title):
 
 @cli.command()
 @click.argument("title", required=True)
-@click.option("--source", required=False, default=None)
+@click.option("--source", required=True, default=None)
 @click.option("--debug", required=False, default=False, is_flag=True)
 def install(title, source, debug):
     if source:

@@ -46,12 +46,20 @@ def win_path_to_wine_nix(prefix: Path, win_path: str):
     return Path(prefix / "dosdevices" / win_path.lower().replace("\\", "/"))
 
 
-def add_cdrom(module: AnsibleModule, prefix: Path, letter: str, target: Path, replace=True) -> None:
-    # order is important! If upd_reg comes after symlink creation, symlink is being deleted somehow...
-    upd_reg(module, prefix, {
-        f"HKEY_CURRENT_USER\\Software\\Wine\\Drives": [{str(letter + ":"): "cdrom"}]
-    })
+def str_in_file(module: AnsibleModule, file_path: Path, line: str) -> bool:
+    rc, out, err = module.run_command(f"grep -Fq '{line}' {file_path}")
+    return rc == 0
 
+
+def add_cdrom(module: AnsibleModule, prefix: Path, letter: str, target: Path, replace=True) -> None:
+    s = f'"{letter}:"="cdrom"'
+    sysreg_path = prefix / "system.reg"
+    if not str_in_file(module, sysreg_path, s):
+        upd_reg(module, prefix, {
+            f"HKEY_LOCAL_MACHINE\\Software\\Wine\\Drives": [{str(letter + ":"): "cdrom"}]
+        })
+        while not str_in_file(module, sysreg_path, s):
+            time.sleep(1)
     drive_path = prefix / "dosdevices" / str(letter + ":")
     if drive_path.exists():
         if not replace:
@@ -60,7 +68,6 @@ def add_cdrom(module: AnsibleModule, prefix: Path, letter: str, target: Path, re
             raise Exception(f"drive {drive_path} is not a symlink")
         drive_path.unlink()
     drive_path.symlink_to(target)
-
 
 
 def get_overrides_env(module: AnsibleModule, overrides: Dict[str, str]) -> str:
@@ -154,6 +161,7 @@ def exec_cmd(module: AnsibleModule, prefix: Path, exec_cmd_line: str, virtual_de
     rc, out, err = module.run_command(cmd_line, environ_update=wine_env, cwd=exec_folder)
     return rc, out, err
 
+
 def run_module():
     module = AnsibleModule(
         argument_spec=dict(
@@ -211,7 +219,6 @@ def run_module():
     cdrom = module.params["cdrom"]
     if cdrom:
         add_cdrom(module, prefix, cdrom["letter"], Path(cdrom["target"]))
-
 
     if module.params["exec"]:
         virtual_desktop = module.params.get("virtual_desktop")

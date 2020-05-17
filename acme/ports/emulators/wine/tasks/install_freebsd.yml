@@ -5,3 +5,37 @@
     state: latest
   become: yes
   become_method: sudo
+
+- stat:
+    path: "/usr/lib32/libelf.a"
+  register: lib32_folder
+- block:
+  - get_url:
+      url: "https://download.freebsd.org/ftp/releases/amd64/{{ ansible_distribution_version }}-RELEASE/lib32.txz"
+      dest: "{{ tmp_folder }}"
+  - command: "tar -xpf {{ tmp_folder }}/lib32.txz -C /"
+  become: yes
+  become_method: sudo
+  when: not lib32_folder.stat.exists
+
+- name:
+  lineinfile:
+    path: /boot/loader.conf
+    regexp: 'max_ldt_segment'
+    state: absent
+  check_mode: yes
+  changed_when: false
+  register: max_ldt_segment
+- block:
+  - lineinfile:
+      path: /boot/loader.conf
+      line: 'machdep.max_ldt_segment="2048"'
+  - pause:
+      prompt: |
+        Reboot is required due to a wine bug (USER_LDT): https://www.freshports.org/emulators/wine.
+        Press any key to reboot now or close this window and reboot manually later.
+        Repeat installation procedure after reboot"
+  - command: reboot
+  become: yes
+  become_method: sudo
+  when: not max_ldt_segment.found
