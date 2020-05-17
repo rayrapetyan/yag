@@ -1,5 +1,7 @@
 # yag
 
+[![Build Status](https://travis-ci.com/rayrapetyan/yag.svg?branch=master)](https://travis-ci.com/rayrapetyan/yag)
+
 Welcome to yag, a powerful Ansible-based package manager for FreeBSD and Linux!
 It allows to install popular apps (mostly games) from any source (e.g. DRM distribution or original media images).
 
