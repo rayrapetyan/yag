@@ -1,5 +1,7 @@
 language: python
 install:
   - pip install -e .
+before_script:
+  - sudo apt-get -y install wine-stable
 script:
   - pytest tests
