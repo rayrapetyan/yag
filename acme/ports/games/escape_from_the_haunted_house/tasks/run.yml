@@ -1,0 +1,21 @@
+- screen:
+    resolution: 640,480
+
+- wine:
+    state: present
+  register: wine_env
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ wine_env.prefix }}/drive_c/"
+  with_fileglob:
+    - "{{ data_folder }}/*.SAV"
+
+- wine:
+    exec: "{{ app_folder }}/PARK.EXE"
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ data_folder }}/"
+  with_fileglob:
+    - "{{ wine_env.prefix }}/drive_c/*.SAV"

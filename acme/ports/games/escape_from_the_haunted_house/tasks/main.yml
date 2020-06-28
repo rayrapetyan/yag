@@ -1,0 +1,11 @@
+- block:
+    - include_role:
+        name: wine
+    - include_tasks: "install_image.yml"
+      when: image is defined
+    - include_tasks: "install_{{ installer.subtype }}.yml"
+      when: installer is defined
+  when: action == "install"
+
+- include_tasks: "run.yml"
+  when: action == "run"

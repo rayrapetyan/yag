@@ -2,14 +2,14 @@
     src: "{{ item }}"
     dest: "{{ app_folder }}/"
   with_fileglob:
-      - "{{ data_folder }}/*.sav"
+    - "{{ data_folder }}/*.sav"
 
 - wine:
     exec: "{{ app_folder }}/Ace.exe"
     virtual_desktop: "800x600"
 
 - copy:
-      src: "{{ item }}"
-      dest: "{{ data_folder }}/"
+    src: "{{ item }}"
+    dest: "{{ data_folder }}/"
   with_fileglob:
-      - "{{ app_folder }}/*.sav"
+    - "{{ app_folder }}/*.sav"
