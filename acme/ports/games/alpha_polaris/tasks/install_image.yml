@@ -1,0 +1,27 @@
+- image_extract:
+    image: "{{ image.path }}"
+    dest: "{{ tmp_folder }}"
+    force: no
+
+- innoextract:
+    installer: "{{ tmp_folder }}/setup.exe"
+    dest: "{{ tmp_folder }}"
+    gog: false
+    creates: "{{ tmp_folder }}/app/{{ executable }}"
+
+- copy:
+    src: "{{ tmp_folder }}/app/"
+    dest: "{{ app_folder }}"
+
+- wine:
+    registry:
+      "HKEY_CURRENT_USER\\Software\\TurmoilGames\\AlphaPolaris\\Video":
+        - DesktopRes: 1
+    state: present
+  register: wine_env
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ wine_env.prefix }}/drive_c/users/{{ ansible_user_id }}/Saved Games/Alpha Polaris"
+    force: yes
+    state: link

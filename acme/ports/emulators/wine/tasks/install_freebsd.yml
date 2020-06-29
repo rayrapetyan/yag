@@ -1,6 +1,6 @@
 - package:
     name:
-     - i386-wine
+     - i386-wine-devel
      - winetricks
     state: latest
   become: yes

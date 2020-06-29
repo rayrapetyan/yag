@@ -169,6 +169,7 @@ def run_module():
             exec=dict(type='raw', required=False, default=None),
             virtual_desktop=dict(type='str', required=False, default=None),
             cdrom=dict(type='dict', required=False, default=None),
+            registry=dict(type='dict', required=False, default=None),
             state=dict(type='str', required=False, choices=["present", "absent"], default="present")
         ),
         supports_check_mode=True
@@ -219,6 +220,10 @@ def run_module():
     cdrom = module.params["cdrom"]
     if cdrom:
         add_cdrom(module, prefix, cdrom["letter"], Path(cdrom["target"]))
+
+    registry = module.params["registry"]
+    if registry:
+        upd_reg(module, prefix, registry)
 
     if module.params["exec"]:
         virtual_desktop = module.params.get("virtual_desktop")

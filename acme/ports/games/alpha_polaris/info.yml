@@ -1,0 +1,10 @@
+name: "Alpha Polaris"
+year: 2011
+developer: "Turmoil Games"
+publisher: "Just A Game"
+genres:
+  - adventure
+  - point-and-click
+distributions:
+  - image:
+      description: 1 CD
