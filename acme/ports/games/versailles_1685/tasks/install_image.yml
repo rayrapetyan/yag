@@ -1,0 +1,18 @@
+- image_extract:
+    image: "{{ image.path[item|int] }}"
+    dest: "{{ tmp_folder }}"
+    force: no
+  with_sequence: start=0 end=1
+
+- copy:
+    src: "{{ tmp_folder }}/DATAS_V/"
+    dest: "{{ app_folder }}"
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ app_folder }}"
+  with_items:
+    - "{{ tmp_folder }}/INSTALL/DATAS_V/GTO"
+    - "{{ tmp_folder }}/INSTALL/DATAS_V/SAVEGAME"
+    - "{{ tmp_folder }}/INSTALL/DATAS_V/TEXTES"
+    - "{{ tmp_folder }}/INSTALL/VERSAILL.PGM"
