@@ -1,0 +1,10 @@
+name: "Lilly Looking Through"
+year: 2013
+developer: "Geeta Games"
+publisher: "Geeta Games"
+genres:
+  - adventure
+  - point-and-click
+distributions:
+  - gog:
+      slug: lilly_looking_through

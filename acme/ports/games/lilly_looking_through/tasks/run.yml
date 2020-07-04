@@ -1,0 +1,2 @@
+- wine:
+    exec: "{{ app_folder }}/{{ executable }}"

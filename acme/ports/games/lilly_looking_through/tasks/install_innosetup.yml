@@ -1,0 +1,19 @@
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ tmp_folder }}"
+    gog: true
+    creates: "{{ tmp_folder }}/app/{{ executable }}"
+
+- copy:
+    src: "{{ tmp_folder }}/app/"
+    dest: "{{ app_folder }}"
+
+- wine:
+    state: present
+  register: wine_env
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ wine_env.prefix }}/drive_c/users/{{ ansible_user_id }}/Application Data/com.geetagames.LillyLookingThrough/Local Store"
+    force: yes
+    state: link
