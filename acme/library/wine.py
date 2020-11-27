@@ -17,7 +17,11 @@ import acme.library.utils.pyrandr as randr
 from _collections import OrderedDict
 from copy import deepcopy
 from pathlib import Path
-from typing import Dict
+from typing import (
+    Dict,
+    List,
+    Union,
+)
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -39,7 +43,7 @@ def gen_win_reg_file(registry):
 
 def upd_reg(module: AnsibleModule, prefix: Path, registry):
     reg_file = gen_win_reg_file(registry)
-    exec_cmd(module, prefix, f"regedit {reg_file}")
+    exec_cmd(module, prefix, "regedit", args=reg_file)
 
 
 def win_path_to_wine_nix(prefix: Path, win_path: str):
@@ -141,23 +145,24 @@ def create_bottle(module: AnsibleModule, prefix: Path, os_ver: str, arch: str = 
         module.run_command([binary, os_ver], environ_update=wine_env)
 
 
-def exec_cmd(module: AnsibleModule, prefix: Path, exec_cmd_line: str, virtual_desktop: str = None):
+def exec_cmd(module: AnsibleModule, prefix: Path, exec: Union[Path, str], args: List, virtual_desktop: str = None):
     wine_binary = module.get_bin_path("wine", None)
     if not wine_binary:
         module.fail_json(msg="can't find wine binary, please install it first")
     wine_env = {
         "WINEPREFIX": str(prefix)
     }
-    exec_cmd_arr = exec_cmd_line.split(" ")
-    exec_path = Path(exec_cmd_arr[0])
-    exec_folder = str(exec_path.parent)
-    exec_file = str(exec_path.name)
+    exec_folder = str(exec.parent) if isinstance(exec, Path) else '/'
+    exec_file = str(exec.name) if isinstance(exec, Path) else exec
     cmd_line = [wine_binary]
     if virtual_desktop:
         cmd_line.append("explorer")
         cmd_line.append(f"/desktop=mydesktop,{virtual_desktop}")
     cmd_line.append(exec_file)
-    cmd_line += exec_cmd_arr[1:]
+    if args:
+        if not isinstance(args, List):
+            args = [args]
+        cmd_line += args
     rc, out, err = module.run_command(cmd_line, environ_update=wine_env, cwd=exec_folder)
     return rc, out, err
 
@@ -167,6 +172,7 @@ def run_module():
         argument_spec=dict(
             recipe=dict(type='dict', required=False, default={}),
             exec=dict(type='raw', required=False, default=None),
+            args=dict(type='list', required=False, default=None),
             virtual_desktop=dict(type='str', required=False, default=None),
             cdrom=dict(type='dict', required=False, default=None),
             registry=dict(type='dict', required=False, default=None),
@@ -232,13 +238,9 @@ def run_module():
             screen.set_resolution(tuple([int(x) for x in virtual_desktop.split("x")]))
             screen.apply_settings()
 
-        cmd_line = module.params["exec"]
-        if isinstance(cmd_line, str):
-            cmd_line = [cmd_line]
-        for cl in cmd_line:
-            rc, out, err = exec_cmd(module, prefix, cl, virtual_desktop)
-            #if rc != 0:
-                #module.fail_json(msg=f"failed to run: {rc, out, err}")
+        rc, out, err = exec_cmd(module, prefix, Path(module.params["exec"]), module.params["args"], virtual_desktop)
+        # if rc != 0:
+            # module.fail_json(msg=f"failed to run: {rc, out, err}")
 
     module.exit_json(**result)
 

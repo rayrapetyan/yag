@@ -1,0 +1,26 @@
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ tmp_folder }}"
+    gog: true
+    creates: "{{ tmp_folder }}/app/{{ executable }}"
+
+- copy:
+    src: "{{ tmp_folder }}/app/"
+    dest: "{{ app_folder }}"
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ app_folder }}/SAVES"
+    force: yes
+    state: link
+
+- set_fact:
+    wine_app_folder: '{{ wine.apps_folder | regex_replace("\\", "\\\\") }}\\{{ app_name }}'
+
+- wine:
+    registry:
+      "HKEY_LOCAL_MACHINE\\Software\\Ion Storm\\Thief - Deadly Shadows":
+        - "ION_ROOT": "{{ wine_app_folder }}"
+        - "SaveGamePath": "{{ wine_app_folder }}\\\\SAVES"
+    state: present
+  register: wine_env

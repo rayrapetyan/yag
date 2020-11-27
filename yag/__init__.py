@@ -24,14 +24,32 @@ def json_serializer(o):
         return str(o)
 
 
-def search(name: str) -> None:
-    print("aaaa")
+def append_host(cmd_args: List[str], host: str) -> None:
+    if host in ["localhost", "127.0.0.1"]:
+        cmd_args.append("-c=local")
+    cmd_args.append(f"-i {host},")
 
 
-def install(name: str, source: Union[List[Path], Path], debug=False) -> None:
+def search(name: str, host: str) -> None:
     extra_vars = {
         "app_name": name,
-        "source_path": source
+    }
+    cmd_args = [
+        "ansible-playbook",
+        "search.yml",
+        "--extra-vars",
+        json.dumps(extra_vars, default=json_serializer)
+    ]
+    append_host(cmd_args, host)
+    cli = PlaybookCLI(args=cmd_args)
+    assert (cli.run() == 0)
+
+
+def install(name: str, host: str, source: Union[List[Path], Path], debug: bool = False) -> None:
+    extra_vars = {
+        "app_name": name,
+        "source_path": source,
+        "ansible_python_interpreter": "/usr/bin/python3"  # TODO drop
     }
     cmd_args = [
         "ansible-playbook",
@@ -39,23 +57,24 @@ def install(name: str, source: Union[List[Path], Path], debug=False) -> None:
         "--extra-vars",
         json.dumps(extra_vars, default=json_serializer)
     ]
+    append_host(cmd_args, host)
     if debug:
         cmd_args.append("-vvvvv")
     cli = PlaybookCLI(args=cmd_args)
     assert (cli.run() == 0)
 
 
-def run(name: str, debug=False) -> None:
+def run(name: str, host: str, debug: bool = False) -> None:
     extra_vars = {
         "app_name": name
     }
-    #extra_vars["ansible_python_interpreter"] = "/usr/bin/python3.7"
     cmd_args = [
         "ansible-playbook",
         "run.yml",
         "--extra-vars",
         json.dumps(extra_vars, default=json_serializer)
     ]
+    append_host(cmd_args, host)
     if debug:
         cmd_args.append("-vvvvv")
     cli = PlaybookCLI(args=cmd_args)
@@ -64,3 +83,20 @@ def run(name: str, debug=False) -> None:
 
 def scan(source: Path) -> Source:
     return get(source)
+
+
+def remove(name: str, host: str, debug: bool = False) -> None:
+    extra_vars = {
+        "app_name": name
+    }
+    cmd_args = [
+        "ansible-playbook",
+        "remove.yml",
+        "--extra-vars",
+        json.dumps(extra_vars, default=json_serializer)
+    ]
+    append_host(cmd_args, host)
+    if debug:
+        cmd_args.append("-vvvvv")
+    cli = PlaybookCLI(args=cmd_args)
+    assert (cli.run() == 0)

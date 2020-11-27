@@ -1,0 +1,21 @@
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ tmp_folder }}"
+    gog: true
+    creates: "{{ tmp_folder }}/{{ executable }}"
+
+- copy:
+    src: "{{ tmp_folder }}/"
+    dest: "{{ app_folder }}"
+
+- wine:
+    recipe: "{{ wine_recipe }}"
+    exec: "{{ app_folder }}/__redist/DirectX/DXSETUP.exe"
+    args:
+      - "/silent"
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ lookup('env','HOME') }}/My Games/Grim Dawn"
+    force: yes
+    state: link

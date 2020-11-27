@@ -1,0 +1,9 @@
+name: "Thief: Deadly Shadows"
+year: 2004
+developer: "Ion Storm"
+publisher: "Eidos Interactive"
+genres:
+  - stealth
+distributions:
+  - gog:
+      slug: thief

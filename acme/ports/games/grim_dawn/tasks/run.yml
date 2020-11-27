@@ -1,0 +1,3 @@
+- wine:
+    recipe: "{{ wine_recipe }}"
+    exec: "{{ app_folder }}/{{ executable }}"

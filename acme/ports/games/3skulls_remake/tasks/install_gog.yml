@@ -9,15 +9,13 @@
     dest: "{{ app_folder }}"
   with_items:
     - "{{ tmp_folder }}/RData.Audio"
-    - "{{ tmp_folder }}/3 Skulls of the Toltecs.exe"
+    - "{{ tmp_folder }}/{{ executable }}"
     - "{{ tmp_folder }}/RData.lzma"
     - "{{ tmp_folder }}/Galaxy.dll"
 
 - wine:
     state: present
   register: wine_env
-
-- command: mv "{{ app_folder }}/3 Skulls of the Toltecs.exe" "{{ app_folder }}/{{ executable }}"
 
 - set_fact:
     wine_data_folder: "{{ wine_env.prefix }}/drive_c/users/{{ ansible_user_id }}/Application Data/CasualBrothers/3Skulls/default"

@@ -1,0 +1,19 @@
+- hosts: all
+  gather_facts: yes  # TODO: do one-time facts gathering as part of a yag run
+
+  vars:
+    app_folder: "{{ apps_common.base_folder }}/{{ app_name }}"
+
+  tasks:
+    - stat:
+        path: "{{ app_folder }}/yag.installed"
+      register: app_installed
+
+    - assert:
+        that:
+          - app_installed.stat.exists
+        fail_msg: "{{ app_name }} is not installed"
+
+    - file:
+        path: "{{ app_folder }}"
+        state: absent

@@ -1,6 +1,6 @@
-- hosts: 127.0.0.1
-  connection: local
+- hosts: all
   gather_facts: yes  # TODO: do one-time facts gathering as part of a yag run
+  # connection: local
 
   vars:
     app_folder: "{{ apps_common.base_folder }}/{{ app_name }}"

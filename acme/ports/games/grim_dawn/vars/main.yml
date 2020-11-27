@@ -1,0 +1,6 @@
+wine_recipe:
+  os_ver: win10
+  deps:
+    - directx9
+
+executable: "Grim Dawn.exe"

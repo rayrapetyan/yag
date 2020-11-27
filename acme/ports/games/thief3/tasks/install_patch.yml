@@ -1,0 +1,15 @@
+- pause:
+    prompt: "do you want to proceed installing sneaky upgrade patches? (recommended): yes(default)/no"
+    echo: yes
+  register: result
+- set_fact:
+    install_patch: "{{ result.user_input | default('yes', true) }}"
+
+- block:
+    - get_url:
+        url: "https://www.dropbox.com/s/xj7lwjfxmelmslb/Setup_T3SneakyUpgrade_Full_1.1.10.exe?dl=1"
+        dest: "{{ tmp_folder }}"
+        checksum: sha256:f6546ba7d0a53130883534ab9450c0516d83121829add6c84a2d6ac6846a7896
+    - wine:
+        exec: "{{ tmp_folder }}/Setup_T3SneakyUpgrade_Full_1.1.10.exe"
+  when: install_patch

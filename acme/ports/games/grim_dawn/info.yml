@@ -1,0 +1,9 @@
+name: "Grim Dawn"
+year: 2016
+developer: "Crate Entertainment"
+publisher: "Crate Entertainment"
+genres:
+  - arpg
+distributions:
+  - gog:
+      slug: grim_dawn
