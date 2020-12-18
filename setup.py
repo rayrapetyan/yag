@@ -6,7 +6,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'ansible @ git+https://github.com/rayrapetyan/ansible@local_copy_optimize',
+        'ansible-base @ git+https://github.com/rayrapetyan/ansible@optimize_local_copy_stable_2_10',
         'click',
     ],
     entry_points={

@@ -29,7 +29,7 @@ def search(title, host):
 @cli.command()
 @click.argument("title", required=True)
 @click.option("--host", required=False, default="127.0.0.1")
-@click.option("--source", required=True, default=None)
+@click.option("--source", required=False, default=None)
 @click.option("--debug", required=False, default=False, is_flag=True)
 def install(title, host, source, debug):
     if source:

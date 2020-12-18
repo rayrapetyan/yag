@@ -1,2 +1,5 @@
-.idea
+build
 dist
+yag.egg-info
+.idea
+.pytest_cache

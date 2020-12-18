@@ -7,7 +7,7 @@ It allows to install popular apps (mostly games) from any source (e.g. DRM distr
 
 # Install
 
-Make sure your user is in a sudoers group. Admin permissions are required only when installing system-wide packages 
+Make sure your user is in a sudoers group. Admin permissions are required only when installing system-wide packages
 (e.g. wine or p7zip) as part of the app setup.
 
 ## From OS packages
@@ -28,6 +28,9 @@ pip3 install --upgrade pip
 ### FreeBSD 12
 
 sudo pkg install -y python py37-pip git
+
+### Requires ansible collections
+ansible-galaxy collection install community.general
 
 ### Clone repo
 ```
@@ -70,7 +73,7 @@ machinarium (Machinarium, 2009):
 # Adding a new port
 
 First of all, create a new sub-folder in an appropriate folder in the acme tree structure. For example let's add support
-for an old classic adventure game - `Golden Gate` which was distributed on 1CD. Make sure you have a valid image of 
+for an old classic adventure game - `Golden Gate` which was distributed on 1CD. Make sure you have a valid image of
 original CD. Create a new folder `goldengate` in the `acme\ports\games` so you get a following data structure:
 ```
 acme:
@@ -92,7 +95,7 @@ We'll put `GOLDENGA.EXE` into files (this is the latest available patch for this
 main.yml is an entry point - here you'll receive all the input information about source (image or installer) as well as
 other available system parameters.
 
-You should put your install\run playbook logic here. You are free to unleash a full power of the Ansible modules 
+You should put your install\run playbook logic here. You are free to unleash a full power of the Ansible modules
 and playbook's language here.
 
 `Golden Gate` uses an ancient QuickTime 2 (provided on original CD) so you need to install it as a part of installation.
@@ -102,9 +105,9 @@ Please try to avoid interaction with the user as much as possible, though it cou
 installation can be fully scripted).
 
 ## Test new port
-Try to check your apps in different environments, e.g. Linux and FreeBSD. Ideally they should be freshly installed with 
+Try to check your apps in different environments, e.g. Linux and FreeBSD. Ideally they should be freshly installed with
 no additional packages.
 Checklist:
-- Make sure app installs. 
+- Make sure app installs.
 - Make sure app runs.
 - For games, make sure "saves" are properly stored in a data folder.
