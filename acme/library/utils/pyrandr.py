@@ -250,8 +250,10 @@ def str_to_pos(s):
 
 
 def exec_cmd(cmd):
-    # throws exception CalledProcessError
-    s = sb.check_output(cmd, stderr=sb.STDOUT)
+    try:
+        s = sb.check_output(cmd, stderr=sb.STDOUT)
+    except sb.CalledProcessError:  # no X
+        return []
     try:
         s = s.decode()
     except AttributeError:
