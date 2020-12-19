@@ -1,12 +1,9 @@
-dist: xenial
+dist: bionic
 language: python
 install:
   - pip install -e .
 before_script:
-  - sudo dpkg --add-architecture i386
-  - wget -O - https://dl.winehq.org/wine-builds/winehq.key | sudo apt-key add -
-  - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ xenial main'
-  - sudo apt update
-  - sudo apt install --install-recommends winehq-stable
+  - yag install wine
+  - yag install innoextract
 script:
   - pytest tests
