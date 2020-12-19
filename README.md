@@ -112,4 +112,4 @@ no additional packages.
 Checklist:
 - Make sure app installs.
 - Make sure app runs.
-- For games, make sure "saves" are properly stored in a data folder.
+- For games, make sure "saves" are properly stored in a portable data folder.

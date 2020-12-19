@@ -12,6 +12,7 @@ class AnsibleFailJson(Exception):
     """Exception class to be raised by module.fail_json and caught by the test case"""
     pass
 
+
 @pytest.fixture
 def mock_ansible_module(monkeypatch):
     def exit_json(*args, **kwargs):
