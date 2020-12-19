@@ -20,18 +20,19 @@ TODO
 
 You need Python 3.6+ and an appropriate pip installed in your system.
 
-### Ubuntu 18.04 (Bionic Beaver):
+#### Ubuntu 18.04 (Bionic Beaver):
 ```
 sudo apt install -y python3-pip
 pip3 install --upgrade pip
 ```
-### FreeBSD 12
-
+#### FreeBSD 12
+```
 sudo pkg install -y python py37-pip git
-
-### Also requires ansible collections
+```
+##### FreeBSD also requires ansible collections:
+```
 ansible-galaxy collection install community.general
-
+```
 ### Clone repo
 ```
 cd /tmp
