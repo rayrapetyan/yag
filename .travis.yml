@@ -1,9 +1,10 @@
 dist: bionic
 language: python
+before_install:
+  - sudo apt-get update
 install:
   - pip install -e .
 before_script:
-  - apt-get update
   - yag install wine
   - yag install innoextract
 script:
