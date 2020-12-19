@@ -15,8 +15,8 @@ from acme.library import (
     wine,
 )
 
-WINE_BODEGA = Path("~/yag/tmp/test/bodega").expanduser()
-WINE_BOTTLE_PREFIX = WINE_BODEGA / "e81a9e38d879fff0993b2ff6c2b032b8"
+WINE_BODEGA = Path("/tmp/yag-test/wine-envs")
+WINE_BOTTLE_PREFIX = WINE_BODEGA / "a235825dd80117a3674b11b2c9bbc7eb"
 WINE_RECIPE = {
     'foo': "bar"
 }

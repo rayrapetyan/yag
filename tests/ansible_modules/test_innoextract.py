@@ -17,7 +17,7 @@ from acme.library import (
 
 BASE_PATH = Path(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')))
 
-DEST_PATH = Path("~/yag/tmp/test/innoextract").expanduser()
+DEST_PATH = Path("/tmp/yag-test/innoextract")
 INSTALLER = BASE_PATH / "data" / "innosetup-6.0.3.exe"
 CREATES_PATH = DEST_PATH / "app" / "ISCC.exe"
 
