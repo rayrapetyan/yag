@@ -1,2 +1,0 @@
-ansible-base @ git+https://github.com/rayrapetyan/ansible@optimize_local_copy_stable_2_10
-click
