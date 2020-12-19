@@ -10,11 +10,18 @@ from ansible.module_utils.basic import AnsibleModule
 
 from pathlib import Path
 
-from ansible.module_utils.source import (
-    get,
-    Image,
-    Installer,
-)
+try:
+    from ansible.module_utils.source import (
+        get,
+        Image,
+        Installer,
+    )
+except ImportError:  # unit test
+    from acme.library.utils.source import (
+        get,
+        Image,
+        Installer,
+    )
 
 
 def conv_vals_to_str(dct):

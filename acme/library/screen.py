@@ -8,7 +8,10 @@ ANSIBLE_METADATA = {
 
 from ansible.module_utils.basic import AnsibleModule
 
-import ansible.module_utils.pyrandr as randr
+try:
+    import ansible.module_utils.pyrandr as randr
+except ImportError:  # unit test
+    import acme.library.utils.pyrandr as randr
 
 def run_module():
     module = AnsibleModule(

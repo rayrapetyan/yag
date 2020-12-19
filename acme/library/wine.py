@@ -12,7 +12,10 @@ import os
 import shutil
 import time
 
-import ansible.module_utils.pyrandr as randr
+try:
+    import ansible.module_utils.pyrandr as randr
+except ImportError:  # unit test
+    import acme.library.utils.pyrandr as randr
 
 from _collections import OrderedDict
 from copy import deepcopy

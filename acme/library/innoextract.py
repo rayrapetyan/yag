@@ -10,6 +10,7 @@ from pathlib import Path
 
 from ansible.module_utils.basic import AnsibleModule
 
+
 def run_module():
     module = AnsibleModule(
         argument_spec=dict(
