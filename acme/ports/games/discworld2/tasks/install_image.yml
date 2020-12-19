@@ -1,0 +1,47 @@
+- assert:
+    that:
+      - image.path | length == 2
+    fail_msg: "2 CD images expected, {{ image.path | length }} provided"
+
+- image_extract:
+    image: "{{ image.path[item|int] }}"
+    dest: "{{ app_folder }}/CD{{item}}"
+    force: no
+  with_sequence: start=0 end=1
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ app_folder }}/"
+  with_fileglob:
+    - "{{ app_folder }}/CD0/*.DIG"
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ app_folder }}/"
+  with_items:
+    - "{{ app_folder }}/CD0/DOSCONF"
+    - "{{ app_folder }}/CD0/SAMPLE.AD"
+    - "{{ app_folder }}/CD0/DW2.BAT"
+    - "{{ app_folder }}/CD0/TITLEDOS.BMP"
+    - "{{ app_folder }}/CD0/SAMPLE.BNK"
+    - "{{ app_folder }}/CD0/RM.DRV"
+    - "{{ app_folder }}/CD0/DWB.EXE"
+    - "{{ app_folder }}/CD0/SETSOUND.EXE"
+    - "{{ app_folder }}/CD0/SETUP.EXE"
+    - "{{ app_folder }}/CD0/UNINSTLL.EXE"
+    - "{{ app_folder }}/CD0/UVCONFIG.EXE"
+    - "{{ app_folder }}/CD0/ENGINS.IMJ"
+    - "{{ app_folder }}/CD0/INSTALLD.INF"
+    - "{{ app_folder }}/CD0/AILDRVR.LST"
+    - "{{ app_folder }}/CD0/INSTALLF.LST"
+    - "{{ app_folder }}/CD0/SAMPLE.OPL"
+
+- copy:
+    src: DIG.INI
+    dest: "{{ app_folder }}"
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ app_folder }}/SAVE"
+    force: yes
+    state: link

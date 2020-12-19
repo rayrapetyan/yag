@@ -1,0 +1,5 @@
+- dosbox:
+    exec: "{{ app_folder }}/DW2.BAT"
+    mount:
+      - "{{ app_folder}}/CD0"
+      - "{{ app_folder}}/CD1"

@@ -29,7 +29,7 @@ pip3 install --upgrade pip
 
 sudo pkg install -y python py37-pip git
 
-### Requires ansible collections
+### Also requires ansible collections
 ansible-galaxy collection install community.general
 
 ### Clone repo

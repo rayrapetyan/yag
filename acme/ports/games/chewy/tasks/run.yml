@@ -1,0 +1,2 @@
+- dosbox:
+    exec: "{{ app_folder }}/CHEWY.EXE"

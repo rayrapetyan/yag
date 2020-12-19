@@ -26,7 +26,7 @@ def run_module():
 
     binary = module.get_bin_path("scummvm", None)
     if not binary:
-        module.fail_json(msg="can't find binary, please install it first")
+        module.fail_json(msg="can't find binary, please install scummvm first")
 
     cmd = [
         binary,

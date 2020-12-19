@@ -1,0 +1,20 @@
+- image_extract:
+    image: "{{ image.path }}"
+    dest: "{{ app_folder }}"
+    force: no
+
+- command: mv "{{ app_folder }}/CHEWY.EX_" "{{ app_folder }}/CHEWY.EXE"
+
+- copy:
+    src: SETUP.INI
+    dest: "{{ app_folder }}"
+
+- copy:
+    src: DIG.INI
+    dest: "{{ app_folder }}/SOUND"
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ app_folder }}/SAVE"
+    force: yes
+    state: link

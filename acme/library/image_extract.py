@@ -5,6 +5,9 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 
 from __future__ import absolute_import, division, print_function
+
+from pathlib import Path
+
 __metaclass__ = type
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
@@ -115,11 +118,11 @@ def main():
         if module.params['executable'] is not None and not binary:
             module.warn("Executable '%s' is not found on the system, trying to mount ISO instead." % executable)
 
-        if not os.path.exists(dest):
-            module.fail_json(msg="Directory '%s' does not exist" % dest)
-
         if not os.path.exists(os.path.dirname(image)):
             module.fail_json(msg="ISO image '%s' does not exist" % image)
+
+        if not os.path.exists(dest):
+            Path(dest).mkdir(parents=True, exist_ok=True)
 
         result['files'] = []
         extract_files = list(files)

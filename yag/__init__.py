@@ -1,5 +1,6 @@
 import json
 import os
+import platform
 
 from pathlib import Path
 
@@ -31,26 +32,17 @@ def append_host(cmd_args: List[str], host: str) -> None:
 
 
 def search(name: str, host: str) -> None:
-    extra_vars = {
-        "app_name": name,
-    }
-    cmd_args = [
-        "ansible-playbook",
-        "search.yml",
-        "--extra-vars",
-        json.dumps(extra_vars, default=json_serializer)
-    ]
-    append_host(cmd_args, host)
-    cli = PlaybookCLI(args=cmd_args)
-    assert (cli.run() == 0)
+    return "TODO"
 
 
 def install(name: str, host: str, source: Union[List[Path], Path], debug: bool = False) -> None:
     extra_vars = {
         "app_name": name,
-        "source_path": source,
-        "ansible_python_interpreter": "/usr/bin/python3"  # TODO drop
+        "source_path": source
     }
+    #if platform.system() == 'Linux':
+    #extra_vars["ansible_python_interpreter"] = "/usr/bin/python3"
+
     cmd_args = [
         "ansible-playbook",
         "install.yml",

@@ -1,0 +1,9 @@
+- package:
+    name: dosbox
+    state: latest
+  become: yes
+  become_method: sudo
+
+- copy:
+    src: "dosbox.conf"
+    dest: "{{ apps_common.conf_folder }}/"

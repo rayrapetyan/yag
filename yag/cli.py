@@ -22,7 +22,7 @@ def cli():
 @click.argument("title", required=True)
 @click.option("--host", required=False, default="127.0.0.1")
 def search(title, host):
-    yag_search(title, host)
+    print(yag_search(title, host))
     return 0
 
 
