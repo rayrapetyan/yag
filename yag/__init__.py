@@ -40,8 +40,8 @@ def install(name: str, host: str, source: Union[List[Path], Path], debug: bool =
         "app_name": name,
         "source_path": source
     }
-    #if platform.system() == 'Linux':
-    #extra_vars["ansible_python_interpreter"] = "/usr/bin/python3"
+    if platform.system() == 'Linux':
+        extra_vars["ansible_python_interpreter"] = "/usr/bin/python3"
 
     cmd_args = [
         "ansible-playbook",
