@@ -10,7 +10,7 @@ from ansible.module_utils.basic import AnsibleModule
 
 from pathlib import Path
 
-from acme.library.utils.source import (
+from ansible.module_utils.source import (
     get,
     Image,
     Installer,

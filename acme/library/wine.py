@@ -7,12 +7,12 @@ ANSIBLE_METADATA = {
 }
 
 import hashlib
-import os
 import json
+import os
 import shutil
 import time
 
-import acme.library.utils.pyrandr as randr
+import ansible.module_utils.pyrandr as randr
 
 from _collections import OrderedDict
 from copy import deepcopy

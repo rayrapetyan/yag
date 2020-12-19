@@ -3,7 +3,7 @@
     state: latest
   become: yes
   become_method: sudo
-  when: ansible_os_family | lower != "debian"
+  when: ansible_os_family | lower == "freebsd"
 
 - stat:
     path: "/usr/bin/innoextract"
