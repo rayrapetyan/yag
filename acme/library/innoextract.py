@@ -1,14 +1,14 @@
 #!/usr/bin/python
 
+from pathlib import Path
+
+from ansible.module_utils.basic import AnsibleModule
+
 ANSIBLE_METADATA = {
     'metadata_version': '1.1',
     'status': ['preview'],
     'supported_by': 'community'
 }
-
-from pathlib import Path
-
-from ansible.module_utils.basic import AnsibleModule
 
 
 def run_module():
@@ -51,7 +51,8 @@ def run_module():
         module.fail_json(msg=f"failed to extract: {rc, out, err}")
 
     if not Path(module.params["creates"]).exists():
-        module.fail_json(msg=f"extracted archive doesn't contain expected file: {module.params['creates']}, installer might be corrupted")
+        module.fail_json(msg=f"extracted archive doesn't contain expected file: {module.params['creates']}, "
+                             f"installer might be corrupted")
 
     result["changed"] = True
 
@@ -60,6 +61,7 @@ def run_module():
 
 def main():
     run_module()
+
 
 if __name__ == '__main__':
     main()

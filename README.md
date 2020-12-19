@@ -91,18 +91,19 @@ acme:
             info.yml
 ```
 Start with `info.yml`. Please specify as much information as possible. This info will be used in the `yag search` output.
-We'll put `GOLDENGA.EXE` into files (this is the latest available patch for this game).
+We'll put `GOLDENGA.EXE` into `files` directory (this is the latest available patch for the game).
 
 main.yml is an entry point - here you'll receive all the input information about source (image or installer) as well as
 other available system parameters.
 
 You should put your install\run playbook logic here. You are free to unleash a full power of the Ansible modules
-and playbook's language here.
+and playbook's language here but try to stay as simple and clear as possible.
 
 `Golden Gate` uses an ancient QuickTime 2 (provided on original CD) so you need to install it as a part of installation.
 Also, add QT into `wine_recipe` (see `vars/main.yml`) to avoid conflicts with other wine environments requiring QT.
+By default, yag re-uses same wine-environment for all apps. Use custom `wine_recipe` to create a new env.
 
-Please try to avoid interaction with the user as much as possible, though it could be not possible for QT 2 (but e.g. QT 7
+Please try to avoid interaction with the user as much as possible, though it could be not possible for QT 2 (but QT 7
 installation can be fully scripted).
 
 ## Test new port

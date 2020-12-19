@@ -2,10 +2,14 @@ dist: bionic
 language: python
 before_install:
   - sudo apt-get update
+  - pip install pip-compile-multi
+  - pip-compile-multi -d requirements
 install:
+  - pip install -r requirements/base.txt -r requirements/test.txt
   - pip install -e .
 before_script:
   - yag install wine
   - yag install innoextract
 script:
+  - flake8
   - pytest tests

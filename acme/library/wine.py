@@ -1,11 +1,5 @@
 #!/usr/bin/python
 
-ANSIBLE_METADATA = {
-    'metadata_version': '1.1',
-    'status': ['preview'],
-    'supported_by': 'community'
-}
-
 import hashlib
 import json
 import os
@@ -27,6 +21,12 @@ from typing import (
 )
 
 from ansible.module_utils.basic import AnsibleModule
+
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
 
 DEFAULT_OS_VER = "win7"
 
@@ -63,7 +63,7 @@ def add_cdrom(module: AnsibleModule, prefix: Path, letter: str, target: Path, re
     sysreg_path = prefix / "system.reg"
     if not str_in_file(module, sysreg_path, s):
         upd_reg(module, prefix, {
-            f"HKEY_LOCAL_MACHINE\\Software\\Wine\\Drives": [{str(letter + ":"): "cdrom"}]
+            "HKEY_LOCAL_MACHINE\\Software\\Wine\\Drives": [{str(letter + ":"): "cdrom"}]
         })
         while not str_in_file(module, sysreg_path, s):
             time.sleep(1)
@@ -243,7 +243,7 @@ def run_module():
 
         rc, out, err = exec_cmd(module, prefix, Path(module.params["exec"]), module.params["args"], virtual_desktop)
         # if rc != 0:
-            # module.fail_json(msg=f"failed to run: {rc, out, err}")
+        # module.fail_json(msg=f"failed to run: {rc, out, err}")
 
     module.exit_json(**result)
 

@@ -1,14 +1,15 @@
 #!/usr/bin/python
 
+from ansible.module_utils.basic import AnsibleModule
+
+from pathlib import Path
+
 ANSIBLE_METADATA = {
     'metadata_version': '1.1',
     'status': ['preview'],
     'supported_by': 'community'
 }
 
-from ansible.module_utils.basic import AnsibleModule
-
-from pathlib import Path
 
 try:
     from ansible.module_utils.source import (
@@ -34,6 +35,7 @@ def conv_vals_to_str(dct):
             dct[k] = str(v)
     return dct
 
+
 def run_module():
     module = AnsibleModule(
         argument_spec=dict(
@@ -58,6 +60,7 @@ def run_module():
         result["image"] = conv_vals_to_str(vars(source_inst))
 
     module.exit_json(**result)
+
 
 def main():
     run_module()

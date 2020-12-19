@@ -14,10 +14,10 @@ from acme.library.utils.source import (
     Source,
 )
 
+from ansible.cli.playbook import PlaybookCLI
+
 BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')) + '/'
 os.chdir(Path(BASE_PATH) / "acme")
-
-from ansible.cli.playbook import PlaybookCLI
 
 
 def json_serializer(o):

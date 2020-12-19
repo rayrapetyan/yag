@@ -282,7 +282,6 @@ def parse_xrandr(lines):
     rxdisconn = re.compile(r'\bdisconnected\b')
 
     sc_name_line = None
-    sc_name = None
     width = None
     height = None
     freq = None

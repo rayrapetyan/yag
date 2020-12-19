@@ -1,14 +1,14 @@
 #!/usr/bin/python
 
+import os
+
+from ansible.module_utils.basic import AnsibleModule
+
 ANSIBLE_METADATA = {
     'metadata_version': '1.1',
     'status': ['preview'],
     'supported_by': 'community'
 }
-
-import os
-
-from ansible.module_utils.basic import AnsibleModule
 
 
 def run_module():
@@ -31,8 +31,8 @@ def run_module():
         binary,
         f"{module.params['exec']}",
         f"-conf={module.params['config']}",
-        f"-fullscreen",
-        f"-exit",
+        "-fullscreen",
+        "-exit",
     ]
 
     mounts = module.params["mount"]

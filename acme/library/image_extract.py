@@ -6,7 +6,13 @@
 
 from __future__ import absolute_import, division, print_function
 
+import os.path
+import shutil
+
 from pathlib import Path
+from shlex import quote
+
+from ansible.module_utils.basic import AnsibleModule
 
 __metaclass__ = type
 
@@ -75,13 +81,6 @@ RETURN = r'''
 #
 '''
 
-import os.path
-import shutil
-
-from pathlib import Path
-from shlex import quote
-
-from ansible.module_utils.basic import AnsibleModule
 
 def main():
     module = AnsibleModule(

@@ -1,17 +1,18 @@
 #!/usr/bin/python
 
-ANSIBLE_METADATA = {
-    'metadata_version': '1.1',
-    'status': ['preview'],
-    'supported_by': 'community'
-}
-
 from ansible.module_utils.basic import AnsibleModule
 
 try:
     import ansible.module_utils.pyrandr as randr
 except ImportError:  # unit test
     import acme.library.utils.pyrandr as randr
+
+ANSIBLE_METADATA = {
+    'metadata_version': '1.1',
+    'status': ['preview'],
+    'supported_by': 'community'
+}
+
 
 def run_module():
     module = AnsibleModule(
