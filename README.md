@@ -73,8 +73,8 @@ machinarium (Machinarium, 2009):
 
 # Adding a new port
 
-First of all, create a new sub-folder in an appropriate folder in the acme tree structure. For example let's add support
-for an old classic adventure game - `Golden Gate` which was distributed on 1CD. Make sure you have a valid image of
+First create a new sub-folder in an appropriate folder in the acme tree structure. For example let's add support for 
+an old classic adventure game - `Golden Gate` which was distributed on 1CD. Make sure you have a valid image of
 original CD. Create a new folder `goldengate` in the `acme\ports\games` so you get a following data structure:
 ```
 acme:
@@ -101,10 +101,10 @@ and playbook's language here but try to stay as simple and clear as possible.
 
 `Golden Gate` uses an ancient QuickTime 2 (provided on original CD) so you need to install it as a part of installation.
 Also, add QT into `wine_recipe` (see `vars/main.yml`) to avoid conflicts with other wine environments requiring QT.
-By default, yag re-uses same wine-environment for all apps. Use custom `wine_recipe` to create a new env.
+See [wine module documentation](docs/runners/wine.md) for more details.
 
-Please try to avoid interaction with the user as much as possible, though it could be not possible for QT 2 (but QT 7
-installation can be fully scripted).
+Please try to avoid interaction with user as much as possible, though it could be not possible for QT 2 (but QT 7 setup 
+can be fully scripted).
 
 ## Test new port
 Try to check your apps in different environments, e.g. Linux and FreeBSD. Ideally they should be freshly installed with

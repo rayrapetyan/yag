@@ -202,7 +202,7 @@ def run_module():
         module.exit_json(**result)
 
     bottle_recipe = deepcopy(module.params['recipe'])
-    bodega = bottle_recipe.get("bodega", os.getenv("WINE_BODEGA", default=str(Path.home() / "wine_bodega")))
+    bodega = bottle_recipe.get("bodega", os.getenv("WINE_BODEGA"))
     os_ver = bottle_recipe.get("os_ver", DEFAULT_OS_VER)
     if "os_ver" not in bottle_recipe:
         bottle_recipe["os_ver"] = os_ver
