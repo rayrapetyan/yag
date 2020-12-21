@@ -2,3 +2,5 @@
 *.EXE filter=lfs diff=lfs merge=lfs -text
 *.iso filter=lfs diff=lfs merge=lfs -text
 *.ISO filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+*.BIN filter=lfs diff=lfs merge=lfs -text

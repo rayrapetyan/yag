@@ -59,7 +59,7 @@ Now you can start using yag.
 
 `yag search machinar`
 
-- outputs list of supported distributions and other app-related info, e.g.
+Outputs list of supported distributions and other app-related info, e.g.
 ```
 machinarium (Machinarium, 2009):
     gog
@@ -68,11 +68,19 @@ machinarium (Machinarium, 2009):
 ```
 ## Install new app
 
+Source format will be detected automatically.
+
 `yag install machinarium --source="/images/machinarium/setup_machinarium_2844-a_(18752).exe"`
 
 ## Run installed app
 
 `yag run machinarium`
+
+## Remove installed app
+
+`yag remove machinarium`
+
+All saved data will be preserved.
 
 # Adding a new port
 

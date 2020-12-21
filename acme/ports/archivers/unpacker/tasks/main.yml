@@ -2,6 +2,7 @@
     name: "{{ unpack_item }}"
   loop:
     - 7zip
+    - iat
     - innoextract
     - unzip
   loop_control:
