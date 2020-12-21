@@ -74,6 +74,7 @@ RETURN = r'''
 #
 '''
 
+
 def run_7z(module, src, dest, extract_files=None):
     file_names = ' '.join([quote(f) for f in extract_files]) if extract_files else ''
     bin = module.get_bin_path('7z', None)
@@ -144,7 +145,7 @@ def main():
             iso_image = Path(td) / "tmp.iso"
             bin = module.get_bin_path('iat', None)
             cmd = f'{bin} -i {image} -o {iso_image} --iso'
-            rc, out, err =  module.run_command(cmd)
+            rc, out, err = module.run_command(cmd)
             if rc != 0:
                 result.update(dict(
                     cmd=cmd,

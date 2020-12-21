@@ -29,6 +29,11 @@ ANSIBLE_METADATA = {
 }
 
 DEFAULT_OS_VER = "win7"
+DEFAULT_OS_ARCH = "win32"
+
+
+def recipe_hash(recipe):
+    return hashlib.md5((json.dumps(recipe, sort_keys=True)).encode()).hexdigest()
 
 
 def gen_win_reg_file(registry):
@@ -108,8 +113,8 @@ def get_overrides_env(module: AnsibleModule, overrides: Dict[str, str]) -> str:
     return ";".join(override_strings)
 
 
-def create_bottle(module: AnsibleModule, prefix: Path, os_ver: str, arch: str = "win32",
-                  dll_overrides: Dict[str, str] = {}, install_gecko: bool = False, install_mono: bool = False) -> None:
+def create_bottle(module: AnsibleModule, prefix: Path, os_ver: str, os_arch: str, dll_overrides: Dict[str, str],
+                  install_gecko: bool, install_mono: bool) -> None:
     if not install_gecko:
         dll_overrides["mshtml"] = "d"
     if not install_mono:
@@ -122,7 +127,7 @@ def create_bottle(module: AnsibleModule, prefix: Path, os_ver: str, arch: str = 
     prefix.parent.mkdir(parents=True, exist_ok=True)
 
     wine_env = {
-        "WINEARCH": arch,
+        "WINEARCH": os_arch,
         "WINEPREFIX": str(prefix),
         "WINEDLLOVERRIDES": get_overrides_env(module, dll_overrides),
     }
@@ -184,16 +189,6 @@ def run_module():
         supports_check_mode=True
     )
 
-    """
-    bodega=dict(type='path', required=True),
-    arch=dict(type='str', required=False, default="win32"),
-    dll_overrides=dict(type='dict', required=False, default={}),
-    install_gecko=dict(type='bool', required=False, default=False),
-    install_mono=dict(type='bool', required=False, default=False),
-    os_ver=dict(type='str', required=False, default="win7"),
-    virtual_desktop=dict(type='str', required=False, default=None),
-    """
-
     result = {
         "changed": False,
         "prefix": ""
@@ -202,13 +197,8 @@ def run_module():
         module.exit_json(**result)
 
     bottle_recipe = deepcopy(module.params['recipe'])
-    bodega = bottle_recipe.get("bodega", os.getenv("WINE_BODEGA"))
-    os_ver = bottle_recipe.get("os_ver", DEFAULT_OS_VER)
-    if "os_ver" not in bottle_recipe:
-        bottle_recipe["os_ver"] = os_ver
-
-    hash = hashlib.md5((bodega + json.dumps(bottle_recipe, sort_keys=True)).encode()).hexdigest()
-    prefix = Path(bodega) / hash
+    bodega = os.getenv("WINE_BODEGA")
+    prefix = Path(bodega) / recipe_hash(bottle_recipe)
     result["prefix"] = str(prefix)
     if prefix.exists():
         if module.params["state"] == "absent":
@@ -216,11 +206,19 @@ def run_module():
             result["changed"] = True
     else:
         if module.params["state"] == "present":
-            create_bottle(module, prefix, os_ver)
+            create_bottle(
+                module=module,
+                prefix=prefix,
+                os_ver=bottle_recipe.get("os_ver", DEFAULT_OS_VER),
+                os_arch=bottle_recipe.get("os_arch", DEFAULT_OS_ARCH),
+                dll_overrides=bottle_recipe.get("dll_overrides", {}),
+                install_gecko=bottle_recipe.get("install_gecko", False),
+                install_mono=bottle_recipe.get("install_mono", False),
+            ),
             result["changed"] = True
 
-    int_apps_folder = bottle_recipe.get("int_apps_folder", os.getenv("WINE_APPS_FOLDER"))
-    ext_apps_folder = bottle_recipe.get("ext_apps_folder", os.getenv("APPS_FOLDER"))
+    int_apps_folder = os.getenv("WINE_APPS_FOLDER")
+    ext_apps_folder = os.getenv("APPS_FOLDER")
     if int_apps_folder and ext_apps_folder:
         wine_nix_path = win_path_to_wine_nix(prefix, int_apps_folder)
         if not wine_nix_path.exists():

@@ -7,7 +7,6 @@ install:
   - pip install -e .
 before_script:
   - yag install wine
-  - yag install innoextract
 script:
   - flake8
   - pytest tests

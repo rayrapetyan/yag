@@ -1,6 +1,6 @@
 import os
 import pytest
-import shutil
+import tempfile
 
 from pathlib import Path
 
@@ -17,13 +17,10 @@ from acme.library import (
     wine,
 )
 
-WINE_BODEGA = Path("/tmp/yag-test/wine-envs")
-WINE_BOTTLE_PREFIX = WINE_BODEGA / "a235825dd80117a3674b11b2c9bbc7eb"
 WINE_RECIPE = {
-    'foo': "bar"
+    'foo': 'bar',
 }
-
-os.environ["WINE_BODEGA"] = str(WINE_BODEGA)
+WINE_RECIPE_HASH = wine.recipe_hash(WINE_RECIPE)
 
 
 def test_invalid_arg(mock_ansible_module):
@@ -36,49 +33,53 @@ def test_invalid_arg(mock_ansible_module):
 
 
 def test_present(mock_ansible_module):
-    shutil.rmtree(WINE_BOTTLE_PREFIX, ignore_errors=True)
-    assert (not WINE_BOTTLE_PREFIX.exists())
+    with tempfile.TemporaryDirectory() as wine_bodega:
+        os.environ["WINE_BODEGA"] = wine_bodega
+        wine_bodega_path = Path(wine_bodega)
+        wine_bottle_prefix = wine_bodega_path / WINE_RECIPE_HASH
 
-    set_module_args({
-        'recipe': WINE_RECIPE,
-        'state': 'present'
-    })
-    with pytest.raises(AnsibleExitJson) as result:
-        wine.main()
-    result = result.value.args[0]
-    assert (result['changed'])
-    assert (result["prefix"] == str(WINE_BOTTLE_PREFIX))
-    assert ((WINE_BOTTLE_PREFIX / "system.reg").exists())
+        set_module_args({
+            'recipe': WINE_RECIPE,
+            'state': 'present'
+        })
+        with pytest.raises(AnsibleExitJson) as result:
+            wine.main()
+        result = result.value.args[0]
+        assert (result['changed'])
+        assert (result["prefix"] == str(wine_bottle_prefix))
+        assert ((wine_bottle_prefix / "system.reg").exists())
 
-    with pytest.raises(AnsibleExitJson) as result:
-        wine.main()
-    result = result.value.args[0]
-    assert (not result['changed'])
-    assert (result["prefix"] == str(WINE_BOTTLE_PREFIX))
-    assert (WINE_BOTTLE_PREFIX.exists())
+        with pytest.raises(AnsibleExitJson) as result:
+            wine.main()
+        result = result.value.args[0]
+        assert (not result['changed'])
+        assert (result["prefix"] == str(wine_bottle_prefix))
+        assert (wine_bottle_prefix.exists())
 
 
 def test_absent(mock_ansible_module):
-    shutil.rmtree(WINE_BOTTLE_PREFIX, ignore_errors=True)
-    assert (not WINE_BOTTLE_PREFIX.exists())
+    with tempfile.TemporaryDirectory() as wine_bodega:
+        os.environ["WINE_BODEGA"] = wine_bodega
+        wine_bodega_path = Path(wine_bodega)
+        wine_bottle_prefix = wine_bodega_path / WINE_RECIPE_HASH
 
-    set_module_args({
-        'recipe': WINE_RECIPE,
-        'state': 'absent'
-    })
-    with pytest.raises(AnsibleExitJson) as result:
-        wine.main()
-    result = result.value.args[0]
-    assert (not result['changed'])
-    assert (result["prefix"] == str(WINE_BOTTLE_PREFIX))
-    assert (not WINE_BOTTLE_PREFIX.exists())
+        set_module_args({
+            'recipe': WINE_RECIPE,
+            'state': 'absent'
+        })
+        with pytest.raises(AnsibleExitJson) as result:
+            wine.main()
+        result = result.value.args[0]
+        assert (not result['changed'])
+        assert (result["prefix"] == str(wine_bottle_prefix))
+        assert (not wine_bottle_prefix.exists())
 
-    WINE_BOTTLE_PREFIX.mkdir(parents=True)
-    assert (WINE_BOTTLE_PREFIX.exists())
+        wine_bottle_prefix.mkdir(parents=True)
+        assert (wine_bottle_prefix.exists())
 
-    with pytest.raises(AnsibleExitJson) as result:
-        wine.main()
-    result = result.value.args[0]
-    assert (result['changed'])
-    assert (result["prefix"] == str(WINE_BOTTLE_PREFIX))
-    assert (not WINE_BOTTLE_PREFIX.exists())
+        with pytest.raises(AnsibleExitJson) as result:
+            wine.main()
+        result = result.value.args[0]
+        assert (result['changed'])
+        assert (result["prefix"] == str(wine_bottle_prefix))
+        assert (not wine_bottle_prefix.exists())
