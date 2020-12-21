@@ -6,13 +6,16 @@
   loop_control:
     loop_var: os_vars_item
 
-- assert:
-    that:
-      - installer.platform == installer_platform
-    fail_msg: "invalid installer platform (expected: {{ installer_platform }}, actual: {{ installer.platform }})"
-  when: action == "install"
-
-- include_tasks: "{{ action }}_{{ installer.subtype }}_{{ installer.platform }}.yml"
+- block:
+    - assert:
+        that:
+          - installer is defined or image is defined
+        fail_msg: please provide a source
+    - assert:
+        that:
+          - installer.platform == installer_platform
+        fail_msg: "invalid installer platform (expected: {{ installer_platform }}, actual: {{ installer.platform }})"
+    - include_tasks: "{{ action }}_{{ installer.subtype }}_{{ installer.platform }}.yml"
   when: action == "install"
 
 - include_tasks: "{{ action }}_{{ installer_platform }}.yml"

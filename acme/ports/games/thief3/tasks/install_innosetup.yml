@@ -14,13 +14,10 @@
     force: yes
     state: link
 
-- set_fact:
-    wine_app_folder: '{{ wine.apps_folder | regex_replace("\\", "\\\\") }}\\{{ app_name }}'
-
 - wine:
     registry:
       "HKEY_LOCAL_MACHINE\\Software\\Ion Storm\\Thief - Deadly Shadows":
         - "ION_ROOT": "{{ wine_app_folder }}"
-        - "SaveGamePath": "{{ wine_app_folder }}\\\\SAVES"
+        - "SaveGamePath": "{{ wine_app_folder }}\\SAVES"
     state: present
   register: wine_env

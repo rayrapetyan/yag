@@ -1,4 +1,8 @@
 - block:
+    - assert:
+        that:
+          - installer is defined or image is defined
+        fail_msg: please provide a source
     - include_role:
         name: wine
     - include_tasks: "install_{{ installer.subtype }}.yml"

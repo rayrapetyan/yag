@@ -5,7 +5,6 @@
   environment:
     WINE_BODEGA: "{{ wine.bodega }}"
     WINE_APPS_FOLDER: "{{ wine.apps_folder }}"
-
     APPS_FOLDER: "{{ apps_common.base_folder }}"
 
   tasks:
@@ -17,6 +16,7 @@
     - set_fact:
         app_folder: "{{ apps_common.base_folder }}/{{ app_name }}"
         tmp_folder: "{{ tmp_dir.path }}"
+        wine_app_folder: "{{ wine.apps_folder }}/{{ app_name }}"
 
     - set_fact:
         app_installed_flag: "{{ app_folder }}/yag.installed"

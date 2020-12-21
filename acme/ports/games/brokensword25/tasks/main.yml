@@ -1,9 +1,13 @@
 - block:
-  - include_role:
-      name: scummvm
-  - include_tasks: "install_{{ installer.type }}.yml"
-    when: installer is defined
-  - include_tasks: "install_patch.yml"
+    - assert:
+        that:
+          - installer is defined or image is defined
+        fail_msg: please provide a source
+    - include_role:
+        name: scummvm
+    - include_tasks: "install_{{ installer.type }}.yml"
+      when: installer is defined
+    - include_tasks: "install_patch.yml"
   when: action == "install"
 
 - include_tasks: "{{ action }}.yml"

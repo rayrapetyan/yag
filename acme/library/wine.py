@@ -44,6 +44,8 @@ def gen_win_reg_file(registry):
             f.write(f"[{k}]\n")
             for sv in v:
                 (subkey, val), = sv.items()
+                subkey = subkey.replace('\\', '\\\\')
+                val = val.replace('\\', '\\\\')
                 f.write(f'"{subkey}"="{val}"\n')
             f.write("\n")
     return file
