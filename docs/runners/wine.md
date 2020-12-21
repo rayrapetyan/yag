@@ -5,7 +5,7 @@ Wine module manages wine envs (aka wine-prefixes) and runs wine-compatible apps.
 
 ## Input parameters:
 
-- *recipe*: use to uniquely identify and describe your wine environment. Hash of this structure will be used as a   wine-prefix. If you omit specifying recipe, your app will be installed under default wine prefix using following recipe:
+- *recipe*: use to uniquely identify and describe your wine environment. Hash of this structure will be used as a wine-prefix. If you omit specifying recipe, your app will be installed under default wine prefix using following recipe:
 ```yaml
 recipe:
  bodega: WINE_BODEGA
@@ -18,7 +18,9 @@ recipe:
 `WINE_APPS_FOLDER`: `C:\apps`  
 `APPS_FOLDER`: `~/yag/apps`  
 You can redefine base values for all env vars in `group_vars/all`.
-`deps` doesn't make any changes and affect only hash of the structure so you end up creating a new wine env. This is  useful when there are known incompatible dependencies (e.g. legacy `quicktime` or `directx`) so you just list them under  `deps` using format of your choice and a new env will be created.  Maybe in the future wine module will recognize certain deps and install them automatically, but for now it's just a "salt" for env hash.
+
+`deps` doesn't make any changes and affect only hash of the structure so you end up creating a new wine env. This is useful when there are known incompatible dependencies (e.g. legacy `quicktime` or `directx`) so you just list them under  `deps` using format of your choice and a new env will be created. Maybe in the future wine module will recognize certain deps and install them automatically, but for now it's just a "salt" for env hash.
+
 ```yaml
 wine_recipe:  
  os_ver: win10 

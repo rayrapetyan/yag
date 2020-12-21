@@ -1,0 +1,10 @@
+name: "Jack Orlando: A Cinematic Adventure. Director's Cut"
+year: 2001
+developer: "TopWare Interactive / Toontraxx"
+publisher: "JoWooD Entertainment AG"
+genres:
+  - adventure
+  - point-and-click
+distributions:
+  - gog:
+      slug: jack_orlando

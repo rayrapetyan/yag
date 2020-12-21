@@ -1,0 +1,25 @@
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ tmp_folder }}"
+    gog: true
+    creates: "{{ tmp_folder }}/app/JackOrlando.exe"
+
+- copy:
+    src: "{{ tmp_folder }}/app/"
+    dest: "{{ app_folder }}"
+
+- set_fact:
+    wine_app_folder: '{{ wine.apps_folder | regex_replace("\\", "\\\\") }}\\{{ app_name }}'
+
+- wine:
+    registry:
+      "HKEY_LOCAL_MACHINE\\Software\\TopWare Poland\\Jack Orlando":
+        - "Directory": "{{ wine_app_folder }}"
+    state: present
+  register: wine_env
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ app_folder }}/Savegame"
+    force: yes
+    state: link
