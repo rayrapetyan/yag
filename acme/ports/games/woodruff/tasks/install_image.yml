@@ -1,0 +1,11 @@
+- image_extract:
+    image: "{{ image.path }}"
+    dest: "{{ tmp_folder }}"
+    force: no
+
+- copy:
+    src: "{{ item }}"
+    dest: "{{ app_folder }}"
+  with_items:
+    - "{{ tmp_folder }}/WOODRUFF.ITK"
+    - "{{ tmp_folder }}/INTRO.STK"
