@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/rayrapetyan/yag.svg?branch=master)](https://travis-ci.com/rayrapetyan/yag)
 
 Welcome to yag, a powerful Ansible-based package manager for FreeBSD and Linux!
-It allows to install popular apps (mostly games) from any source (e.g. DRM distribution or original media images).
+It allows to install popular apps (mostly games) from any source (e.g. DRM-free GOG's distributions or original media images).
 
 # Install
 
@@ -29,10 +29,7 @@ pip3 install --upgrade pip
 ```
 sudo pkg install -y python py37-pip git
 ```
-##### FreeBSD also requires ansible collections:
-```
-ansible-galaxy collection install community.general
-```
+
 ### Clone repo
 ```
 cd /tmp
@@ -48,6 +45,12 @@ Feel free to change any parameters there (e.g. root_folder).
 cd yag
 sudo python3 -m pip install -e .
 ```
+
+#### FreeBSD also requires ansible collections to be installed separately:
+```
+ansible-galaxy collection install community.general
+```
+
 Now you can start using yag.
 
 # Usage
