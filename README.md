@@ -37,8 +37,8 @@ git clone https://github.com/rayrapetyan/yag.git
 ```
 
 ### Configuration
-You can find configuration file in `acme/group_vars/all`.
-Feel free to change any parameters there (e.g. root_folder).
+You can find configuration file in [acme/group_vars/all](acme/group_vars/all).
+Feel free to change any parameters there (e.g. `root_folder`).
 
 ### Build
 ```
@@ -55,7 +55,7 @@ Now you can start using yag.
 
 # Usage
 
-## Search app
+## Search app (TODO)
 
 `yag search machinar`
 

@@ -1,5 +1,5 @@
 # Runners
 
-- [dosbox](docs/runners/dosbox.md)
-- [scummvm](docs/runners/scummvm.md)
-- [wine](docs/runners/wine.md)
+- [dosbox](runners/dosbox.md)
+- [scummvm](runners/scummvm.md)
+- [wine](runners/wine.md)
