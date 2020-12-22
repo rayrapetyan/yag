@@ -14,7 +14,7 @@ ANSIBLE_METADATA = {
 def run_module():
     module = AnsibleModule(
         argument_spec=dict(
-            config=dict(type='path', required=False, default=os.getenv("DOSBOX_CONF_PATH", default="~/dosbox.conf")),
+            config=dict(type='path', required=False, default=os.getenv("DOSBOX_CONF_PATH")),
             exec=dict(type='str', required=True),
             mount=dict(type='list', required=False)
         ),

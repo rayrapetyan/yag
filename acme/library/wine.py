@@ -66,6 +66,7 @@ def str_in_file(module: AnsibleModule, file_path: Path, line: str) -> bool:
 
 
 def add_cdrom(module: AnsibleModule, prefix: Path, letter: str, target: Path, replace=True) -> None:
+    letter = letter.lower()
     s = f'"{letter}:"="cdrom"'
     sysreg_path = prefix / "system.reg"
     if not str_in_file(module, sysreg_path, s):

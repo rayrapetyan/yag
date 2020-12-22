@@ -10,7 +10,7 @@
 - wine:
     recipe: "{{ wine_recipe }}"
     cdrom:
-      letter: "d"
+      letter: "D"
       target: "{{ app_folder }}"
     exec: "{{ app_folder }}/GOLDENGA.EXE"
 

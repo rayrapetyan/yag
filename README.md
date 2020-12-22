@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/rayrapetyan/yag.svg?branch=master)](https://travis-ci.com/rayrapetyan/yag)
 
 Welcome to yag, a powerful Ansible-based package manager for FreeBSD and Linux!
-It allows to install popular apps (mostly games) from any source (e.g. DRM-free GOG's distributions or original media images).
+It allows to install popular apps (mostly games) from any source (e.g. DRM-free GOG's distributions or original media (CD) images).
 
 # Install
 
@@ -101,17 +101,19 @@ acme:
                 main.yml
             info.yml
 ```
-Start with `info.yml`. Please specify as much information as possible. This info will be used in the `yag search` output.
+Start with `info.yml`. Please specify as much information as possible. This info will be used in the `yag search` 
+output.
 We'll put `GOLDENGA.EXE` into `files` directory (this is the latest available patch for the game).
 
 main.yml is an entry point - here you'll receive all the input information about source (image or installer) as well as
 other available system parameters.
 
-You should put your install\run playbook logic here. You are free to unleash a full power of the Ansible modules
-and playbook's language here but try to stay as simple and clear as possible.
+Put your install\run playbook logic here. You are free to unleash a full power of the Ansible modules and playbook's 
+language here but try to keep things as simple and clear as possible.
 
-`Golden Gate` uses an ancient QuickTime 2 (provided on original CD) so you need to install it as a part of installation.
-Also, add QT into `wine_recipe` (see `vars/main.yml`) to avoid conflicts with other wine environments requiring QT.
+`Golden Gate` uses an ancient QuickTime 2 (provided on original CD), so you need to setup it as a part of installation.
+Also, add QT into `wine_recipe` (see `vars/main.yml`) to avoid conflicts with other wine environments requiring other 
+versions of QT.
 See [wine module documentation](docs/runners/wine.md) for more details.
 
 Please try to avoid interaction with user as much as possible, though it could be not possible for QT 2 (but QT 7 setup 

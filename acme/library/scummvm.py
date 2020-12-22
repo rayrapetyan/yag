@@ -14,7 +14,7 @@ ANSIBLE_METADATA = {
 def run_module():
     module = AnsibleModule(
         argument_spec=dict(
-            config=dict(type='path', required=False, default=os.getenv("SCUMMVM_CONF_PATH", default="~/scummvm.ini")),
+            config=dict(type='path', required=False, default=os.getenv("SCUMMVM_CONF_PATH")),
             game=dict(type='str', required=True),
             path=dict(type='path', required=False, default=os.getenv("APP_FOLDER")),
             savepath=dict(type='path', required=False, default=os.getenv("DATA_FOLDER"))

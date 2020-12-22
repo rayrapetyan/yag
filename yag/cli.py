@@ -51,18 +51,18 @@ def run(title, host, debug):
 
 
 @cli.command()
-@click.argument("source", required=True)
-def scan(source):
-    print(vars(yag_scan(Path(source))))
-    return 0
-
-
-@cli.command()
 @click.argument("title", required=True)
 @click.option("--host", required=False, default="127.0.0.1")
 @click.option("--debug", required=False, default=False, is_flag=True)
 def remove(title, host, debug):
     yag_remove(title, host, debug)
+    return 0
+
+
+@cli.command()
+@click.argument("source", required=True)
+def scan(source):
+    print(vars(yag_scan(Path(source))))
     return 0
 
 

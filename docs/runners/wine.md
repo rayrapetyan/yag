@@ -1,4 +1,3 @@
-
 # Wine
 
 Wine module manages wine envs (aka wine-prefixes) and runs wine-compatible apps. Configurable parameters are defined in `group_vars/all`:
@@ -7,7 +6,7 @@ Wine module manages wine envs (aka wine-prefixes) and runs wine-compatible apps.
 
 ## Input parameters:
 
-- *recipe*: use to uniquely identify and describe your wine environment. Hash of all fields of this structure will be used as a wine-prefix. If you omit specifying recipe, your app will be installed under default wine prefix using following recipe:
+- *recipe*: uniquely identifies and describes your wine environment. Hash of all fields of this structure will be used as a wine-prefix. If you omit specifying recipe, your app will be installed under default wine prefix with a following recipe:
 ```yaml
 recipe:
  os_ver: win7
@@ -17,7 +16,7 @@ recipe:
  install_mono: False
  deps: none
 ```
-`deps` doesn't have any effect and changes only a hash of the structure so you end up creating a new wine env. This is useful when there are known incompatible dependencies (e.g. legacy `quicktime` or `directx`) so you just list them under `deps` using format of your choice and a new env will be created. Maybe in the future wine module will recognize certain deps and install them automatically, but for now it's just a "salt" for env hash.
+`deps` doesn't have any effect and changes only a hash of the structure so you end up creating a new wine env. This is useful when there are known incompatible dependencies (e.g. legacy `quicktime` or `directx`) so you just list them under `deps` using style of your choice and a new env will be created. TODO: wine module should recognize certain deps and install them automatically, but for now it's just a "salt" for the env hash.
 
 ```yaml
 wine_recipe:  
@@ -59,7 +58,7 @@ When you use a custom recipe for installation it's important also to pass the sa
 - wine:
     recipe: "{{ wine_recipe }}"
     cdrom: 
-      letter: "d" 
+      letter: "D" 
       target: "{{ app_folder }}" 
     exec: "{{ app_folder }}/GOLDENGA.EXE"
 ```
@@ -71,9 +70,8 @@ When you use a custom recipe for installation it's important also to pass the sa
     registry: 
       "HKEY_LOCAL_MACHINE\\Software\\Ion Storm\\Thief - Deadly Shadows": 
         - "ION_ROOT": "{{ wine_app_folder }}" 
-        - "SaveGamePath": "{{ wine_app_folder }}\\\\SAVES"
+        - "SaveGamePath": "{{ wine_app_folder }}\\SAVES"
     state: present
 ```
-Make sure slashes are properly escaped.
 
 - *state*:   can be `present` or `absent`. Check if appropriate wine env is present or not.

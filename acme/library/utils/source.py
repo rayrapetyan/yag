@@ -79,10 +79,10 @@ def get(path: Union[List[Path], Path]) -> Source:
     p = path if isinstance(path, Path) else path[0]
     ext = p.suffix.lower()[1:]
     if ext:
-        if ext in ["iso", "img", "cue"]:
+        if ext in ["iso", "img", "nrg", "mdf", "pdi", "cdi", "bin", "cue", "b5i"]:
             return Image(path)
         else:
             return Installer(path)
     else:
-        # TODO: try to detect dy source data
+        # TODO: try to detect dy source binary data
         raise Exception(f"can't detect source type: {path}")

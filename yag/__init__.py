@@ -10,7 +10,7 @@ from typing import (
 )
 
 from acme.library.utils.source import (
-    get,
+    get as get_source,
     Source,
 )
 
@@ -73,10 +73,6 @@ def run(name: str, host: str, debug: bool = False) -> None:
     assert (cli.run() == 0)
 
 
-def scan(source: Path) -> Source:
-    return get(source)
-
-
 def remove(name: str, host: str, debug: bool = False) -> None:
     extra_vars = {
         "app_name": name
@@ -92,3 +88,7 @@ def remove(name: str, host: str, debug: bool = False) -> None:
         cmd_args.append("-vvvvv")
     cli = PlaybookCLI(args=cmd_args)
     assert (cli.run() == 0)
+
+
+def scan(source: Path) -> Source:
+    return get_source(source)
