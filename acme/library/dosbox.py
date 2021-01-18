@@ -15,7 +15,7 @@ def run_module():
     module = AnsibleModule(
         argument_spec=dict(
             config=dict(type='path', required=False, default=os.getenv("DOSBOX_CONF_PATH")),
-            exec=dict(type='str', required=True),
+            exec=dict(type='str', required=False),
             mount=dict(type='list', required=False)
         ),
         supports_check_mode=True
@@ -28,9 +28,15 @@ def run_module():
         module.fail_json(msg="can't find binary, please install dosbox first")
 
     cmd = [
-        binary,
-        f"{module.params['exec']}",
-        f"-conf={module.params['config']}",
+        binary
+    ]
+
+    # exec is not mandatory, may come from config (autoexec section)
+    if module.params['exec']:
+        cmd.append(f"{module.params['exec']}")
+
+    cmd += [
+        f"-conf {module.params['config']}",
         "-fullscreen",
         "-exit",
     ]
@@ -42,10 +48,10 @@ def run_module():
         for m in mounts:
             mount_cmd.append(m)
         mount_cmd.append("-t cdrom")
-        cmd.append(" ".join(mount_cmd))  # cmd with spaces should be appended as a whole string
+        cmd.append(" ".join(mount_cmd))  # cmd with spaces should be appended as a single string
 
     module.debug(f"running: {str(cmd)}")
-    rc, out, err = module.run_command(cmd)
+    rc, out, err = module.run_command(" ".join(cmd))
     if rc != 0:
         module.fail_json(msg=f"failed to run dosbox: {rc, out, err}")
 

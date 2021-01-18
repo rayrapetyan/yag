@@ -1,0 +1,23 @@
+- innoextract:
+    installer: "{{ installer.path }}"
+    dest: "{{ tmp_folder }}"
+    gog: true
+    creates: "{{ tmp_folder }}/{{ executable }}"
+
+- copy:
+    src: "{{ tmp_folder }}/"
+    dest: "{{ app_folder }}"
+
+- template:
+    src: dosbox.j2
+    dest: "{{ app_folder }}/dosbox.conf"
+
+- file:
+    path: "{{ app_folder }}/GAMES"
+    state: absent
+
+- file:
+    src: "{{ data_folder }}"
+    dest: "{{ app_folder }}/GAMES"
+    force: yes
+    state: link

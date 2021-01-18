@@ -1,0 +1,7 @@
+name: "Heroes of Might and Magic 2"
+year: 1997
+genres:
+  - turn-based strategy
+distributions:
+  - image:
+      description: 1 CD

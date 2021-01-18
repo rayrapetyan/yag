@@ -1,0 +1,2 @@
+- dosbox:
+    config: "{{ app_folder }}/dosbox.conf"
