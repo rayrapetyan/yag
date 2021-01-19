@@ -326,3 +326,16 @@ def connected_screens():
 
 def enabled_screens():
     return [s for s in connected_screens() if s.is_enabled()]
+
+
+def main_screen():
+    screens = enabled_screens()
+    if len(screens) == 0:
+        return None
+    elif len(screens) == 1:
+        return screens[0]
+    else:
+        for s in screens:
+            if s.primary:
+                return s
+    return None

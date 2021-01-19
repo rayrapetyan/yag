@@ -33,12 +33,11 @@ def run_module():
     resolution = module.params["resolution"]
     brightness = module.params["brightness"]
 
-    screens = randr.connected_screens()
-    if not screens:
+    screen = randr.main_screen()
+    if screen is None:
         result["changes"] = False
         module.exit_json(**result)
 
-    screen = screens[0]
     if resolution or brightness:
         if resolution:
             screen.set_resolution(tuple([int(x) for x in resolution]))

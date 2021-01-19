@@ -1,0 +1,2 @@
+- debug:
+    msg: "broken: requires 8bpp emulation"
