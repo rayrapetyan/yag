@@ -1,0 +1,21 @@
+- block:
+  - include_role:
+      name: wine
+  - unarchive:
+      src: "https://dervish.ru/downloads/files/abilitycash.zip"
+      dest: "{{ tmp_folder }}"
+      remote_src: yes
+  - copy:
+      src: "{{ tmp_folder }}/AbilityCash.exe"
+      dest: "{{ app_folder }}"
+  - file:
+      src: "{{ data_folder }}"
+      dest: "{{ app_folder }}/data"
+      force: yes
+      state: link
+  when: action == "install"
+
+
+- wine:
+    exec: "{{ app_folder }}/AbilityCash.exe"
+  when: action == "run"
