@@ -15,7 +15,6 @@
       state: link
   when: action == "install"
 
-
 - wine:
     exec: "{{ app_folder }}/AbilityCash.exe"
   when: action == "run"
